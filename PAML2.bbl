@@ -1,14 +1,17 @@
 \begin{thebibliography}{}
 
-\bibitem[Moore and Lopes, 1999]{Moore99}
-Moore, R. and Lopes, J. (1999).
-\newblock Paper templates.
-\newblock In {\em TEMPLATE'06, 1st International Conference on Template
-  Production}. SCITEPRESS.
+\bibitem[Duchi et~al., 2014]{DuchiJordan:2014:PrivacyAwareLearning}
+Duchi, J.~C., Jordan, M.~I., and Wainwright, M.~J. (2014).
+\newblock Privacy aware learning.
+\newblock {\em Journal of the ACM (JACM)}, 61(6):38.
 
-\bibitem[Smith, 1998]{Smith98}
-Smith, J. (1998).
-\newblock {\em The Book}.
-\newblock The publishing company, London, 2nd edition.
+\bibitem[Holzinger et~al., 2016]{iMLExperiment}
+Holzinger, A., Plass, M., Holzinger, K., Crisan, G., Pintea, C., and Palade, V.
+  (2016).
+\newblock Towards interactive machine learning (iml): Applying ant colony
+  algorithms to solve the traveling salesman problem with the human-in-the-loop
+  approach.
+\newblock In {\em IFIP International Cross Domain Conference and Workshop
+  (CD-ARES)}, page in print. Springer, Heidelberg, Berlin, New York.
 
 \end{thebibliography}
