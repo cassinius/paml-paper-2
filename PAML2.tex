@@ -260,7 +260,7 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 % Considering the exact performance, Linear SVC and logistic regression yielded the worst outcomes under anonymization, which is not further surprising given their lower scores on the original input data to begin with.
 
 
-\begin{figure*}[ht]
+\begin{figure*}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/perturbation/adults_education_num/perturb_education_combined}
 	\caption{Multi-class classification of education level under perturbation by selective deletion of important data attributes.}
@@ -268,7 +268,7 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 \end{figure*}
 
 
-\begin{figure*}[ht]
+\begin{figure*}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/perturbation/adults_marital_status/perturb_marital_combined}
 	\caption{Multi-class classification of marital status under perturbation by selective deletion of important data attributes.}
@@ -278,7 +278,7 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 
 % As far as the second case is concerned (Figure~\ref{fig:adult_results_perturbation_top}), our experiments showed the expected drop in algorithm performance, although the impact shows a different behavior: In the case of deleting rows with capital gain values of $>$ 2000 US-Dollars, the decline seems to be linear, whereas for the other two attribute values the performance seems to collapse with higher rates of erasure. Moreover, this behavior is more or less the same for all applied algorithms. This seems to point to the fact that especially significant attribute values can uphold a good performance even in low quantities.
 
-\begin{figure*}[ht]
+\begin{figure*}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/anonymization/adults_education_num/anon_education_combined}
 	\caption{Multi-class classification of education num on the adult dataset under several degrees of k-anonymization.}
@@ -286,7 +286,7 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 \end{figure*}
 
 
-\begin{figure*}[ht]
+\begin{figure*}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/anonymization/adults_marital_status/anon_marital_combined}
 	\caption{Multi-class classification of marital status on the adult dataset under several degrees of k-anonymization.}
@@ -295,6 +295,36 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 
 
 % The only real surprise occurred with applying our classifiers to the datasets perturbed by deleting percentages of attribute values indicating a low yearly income (Figure~\ref{fig:adult_results_perturbation_bottom}). As with scenario 2 we expected to see a progressive decline in performance - but with all classifiers the results either stayed approximately the same or even improved in some cases (please consider the extremely narrow scale in the respective plots). As the classification score is dependent on (in-)correctly classifying both positive and negative outcomes, this seems rather surprising and will require further investigation.
+
+
+\section{Outliers removed}
+
+\begin{figure*}[!h]
+	\centering
+	\includegraphics[width=1\textwidth]{figures/outliers/outliers_removed_all_algos_blur_scaled}
+	\caption{Binary classification on target income based on a dataset with different degrees of outliers removed (= variance loss).}
+	\label{fig:results_outliers_removed}
+\end{figure*}
+
+
+\begin{figure*}[!h]
+	\centering
+	\includegraphics[width=1\textwidth]{figures/outliers/randomly_removed_points_all_algos_blur}
+	\caption{Binary classification on target income based on a dataset with different degrees of randomly removed data points (= variance preserved).}
+	\label{fig:results_random_removed}
+\end{figure*}
+
+
+
+
+\section{Anonymization on Outliers removed}
+
+\begin{figure*}[!h]
+	\centering
+	\includegraphics[width=1\textwidth]{figures/anon_outliers/anon_outliers_marital_combined}
+	\caption{Multi-class classification on target marital status based on a dataset with 30\% outliers removed AND different degrees of k-anonymization.}
+	\label{fig:results_anonymization_outliers_marital_status}
+\end{figure*}
 
 
 
