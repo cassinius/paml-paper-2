@@ -1,17 +1,72 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{10}
 
-\bibitem[Duchi et~al., 2014]{DuchiJordan:2014:PrivacyAwareLearning}
-Duchi, J.~C., Jordan, M.~I., and Wainwright, M.~J. (2014).
-\newblock Privacy aware learning.
-\newblock {\em Journal of the ACM (JACM)}, 61(6):38.
+\bibitem{aggarwal2005approximation}
+Gagan Aggarwal, Tomas Feder, Krishnaram Kenthapadi, Rajeev Motwani, Rina
+  Panigrahy, Dilys Thomas, and An~Zhu.
+\newblock Approximation algorithms for k-anonymity.
+\newblock {\em Journal of Privacy Technology (JOPT)}, 2005.
 
-\bibitem[Holzinger et~al., 2016]{iMLExperiment}
-Holzinger, A., Plass, M., Holzinger, K., Crisan, G., Pintea, C., and Palade, V.
-  (2016).
+\bibitem{campan2009data}
+Alina Campan and Traian~Marius Truta.
+\newblock Data and structural k-anonymity in social networks.
+\newblock In {\em Privacy, Security, and Trust in KDD}, pages 33--54. Springer,
+  2009.
+
+\bibitem{chester2011k}
+Sean Chester, Bruce Kapron, Ganesh Ramesh, Gautam Srivastava, Alex Thomo, and
+  S~Venkatesh.
+\newblock k-anonymization of social networks by vertex addition.
+\newblock {\em ADBIS (2)}, 789:107--116, 2011.
+
+\bibitem{ciriani2007kappa}
+Valentina Ciriani, S~De~Capitani di~Vimercati, Sara Foresti, and Pierangela
+  Samarati.
+\newblock $\kappa$-anonymity.
+\newblock In {\em Secure data management in decentralized systems}, pages
+  323--353. Springer, 2007.
+
+\bibitem{iMLExperiment}
+A~Holzinger, M~Plass, K~Holzinger, GC~Crisan, CM~Pintea, and V~Palade.
 \newblock Towards interactive machine learning (iml): Applying ant colony
   algorithms to solve the traveling salesman problem with the human-in-the-loop
   approach.
 \newblock In {\em IFIP International Cross Domain Conference and Workshop
-  (CD-ARES)}, page in print. Springer, Heidelberg, Berlin, New York.
+  (CD-ARES)}, page in print. Springer, Heidelberg, Berlin, New York, 2016.
+
+\bibitem{Holzinger:2016:iML}
+Andreas Holzinger.
+\newblock Interactive machine learning for health informatics: When do we need
+  the human-in-the-loop?
+\newblock {\em Springer Brain Informatics (BRIN)}, 3(2):119--131, 2016.
+
+\bibitem{kapron2011social}
+Bruce Kapron, Gautam Srivastava, and S~Venkatesh.
+\newblock Social network anonymization via edge addition.
+\newblock In {\em Advances in Social Networks Analysis and Mining (ASONAM),
+  2011 International Conference on}, pages 155--162. IEEE, 2011.
+
+\bibitem{Kieseberg:2016:Doctor-in-the-Loop}
+Peter Kieseberg, Bernd Malle, Peter Frühwirt, Edgar Weippl, and Andreas
+  Holzinger.
+\newblock A tamper-proof audit and control system for the doctor in the loop.
+\newblock {\em Brain Informatics}, pages 1--11, 2016.
+
+\bibitem{sweeney2002k}
+Latanya Sweeney.
+\newblock k-anonymity: A model for protecting privacy.
+\newblock {\em International Journal of Uncertainty, Fuzziness and
+  Knowledge-Based Systems}, 10(05):557--570, 2002.
+
+\bibitem{Zheng:2013:reidentification}
+Wei-Shi Zheng, Shaogang Gong, and Tao Xiang.
+\newblock Reidentification by relative distance comparison.
+\newblock {\em IEEE transactions on pattern analysis and machine intelligence},
+  35(3):653--668, 2013.
+
+\bibitem{Zhou:2008:SurveyAnonNetwork}
+Bin Zhou, Jian Pei, and WoShun Luk.
+\newblock A brief survey on anonymization techniques for privacy preserving
+  publishing of social network data.
+\newblock {\em ACM Sigkdd Explorations Newsletter}, 10(2):12--22, 2008.
 
 \end{thebibliography}
