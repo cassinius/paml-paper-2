@@ -253,6 +253,10 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 \section{Results \& Discussion}
 \label{sect:results}
 
+
+\subsection{Perturbed Datasets - Selective Deletion}
+\label{ssect:selective_deletion}
+
 % We expected a steady decline in the quality of classification results over all three scenarios: 1) anonymization of datasets, 2) perturbation by selectively deleting attribute values of positive significance w.r.t the result, 3) perturbation by selectively deleting attribute values of negative significance w.r.t the result.
 
 % The actual results satisfied our expectations only in the first two cases, with the shape of the actual outcomes being a little bit surprising. As can be seen in Figure~\ref{fig:adult_results_anonymization}, the F1 score of all algorithms applied declines more drastically at the beginning, with more benign further losses as the $k$-factor of anonymization increases. Whereas the F1 curves for gradient boosting, linear SVC and logistic regression approximate a $1/x$ curve, the random forest classifier reacts more sensitively to even slight anonymization, but seems to stay more robust with higher values of $k$.
@@ -276,6 +280,10 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 \end{figure*}
 
 
+
+\subsection{Anonymized Datasets}
+\label{ssect:anonymized_ds}
+
 % As far as the second case is concerned (Figure~\ref{fig:results_perturbation_marital_status}), our experiments showed the expected drop in algorithm performance, although the impact shows a different behavior: In the case of deleting rows with capital gain values of $>$ 2000 US-Dollars, the decline seems to be linear, whereas for the other two attribute values the performance seems to collapse with higher rates of erasure. Moreover, this behavior is more or less the same for all applied algorithms. This seems to point to the fact that especially significant attribute values can uphold a good performance even in low quantities.
 
 \begin{figure*}[!h]
@@ -297,27 +305,23 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 % The only real surprise occurred with applying our classifiers to the datasets perturbed by deleting percentages of attribute values indicating a low yearly income (Figure~\ref{fig:adult_results_perturbation_bottom}). As with scenario 2 we expected to see a progressive decline in performance - but with all classifiers the results either stayed approximately the same or even improved in some cases (please consider the extremely narrow scale in the respective plots). As the classification score is dependent on (in-)correctly classifying both positive and negative outcomes, this seems rather surprising and will require further investigation.
 
 
-\section{Outliers removed}
+\subsection{Outliers removed}
+\label{ssect:outliers_removed}
 
 \begin{figure*}[!h]
 	\centering
-	\includegraphics[width=1\textwidth]{figures/outliers/outliers_removed_all_algos_blur_scaled}
-	\caption{Binary classification on target income based on a dataset with different degrees of outliers removed (= variance loss).}
+	\includegraphics[width=0.49\textwidth]{figures/outliers/outliers_removed_all_algos_blur_bright}
+	\includegraphics[width=0.49\textwidth]{figures/outliers/randomly_removed_points_all_algos_blur_bright}
+	\caption{Binary classification on target income based on a dataset with different degrees of outliers removed (= variance loss) vs. the same degree of data randomly deleted.}
 	\label{fig:results_outliers_removed}
 \end{figure*}
 
 
-\begin{figure*}[!h]
-	\centering
-	\includegraphics[width=1\textwidth]{figures/outliers/randomly_removed_points_all_algos_blur}
-	\caption{Binary classification on target income based on a dataset with different degrees of randomly removed data points (= variance preserved).}
-	\label{fig:results_random_removed}
-\end{figure*}
 
 
 
-
-\section{Anonymization on Outliers removed}
+\subsection{Anonymization on Outliers removed}
+\label{ssect:anon_outliers_removed}
 
 \begin{figure*}[!h]
 	\centering
