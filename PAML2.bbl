@@ -6,4 +6,17 @@ Gagan Aggarwal, Tomas Feder, Krishnaram Kenthapadi, Rajeev Motwani, Rina
 \newblock Approximation algorithms for k-anonymity.
 \newblock {\em Journal of Privacy Technology (JOPT)}, 2005.
 
+\bibitem{Majeed2017}
+A~Majeed, F~Ullah, and S~Lee.
+\newblock {Vulnerability-and Diversity-Aware Anonymization of Personally
+  Identifiable Information for Improving User Privacy and Utility of Publishing
+  Data}.
+\newblock {\em Sensors}, pages 1--23, 2017.
+
+\bibitem{Wimmer2014}
+Hayden Wimmer and Loreen Powell.
+\newblock {A Comparison of the Effects of K-Anonymity on Machine Learning
+  Algorithms}.
+\newblock pages 1--9, 2014.
+
 \end{thebibliography}

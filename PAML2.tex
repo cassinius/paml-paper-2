@@ -72,12 +72,20 @@ Exponential trends in data generation are presenting todays organizations, econo
 \section{Introduction and Motivation for Research}
 
 
+% ==================================
+%			RELATED WORK
+% ==================================
+
+\cite{Wimmer2014}
+
+\cite{Majeed2017}
+
+
 
 % ==================================
-%			BASIC CONCEPTS
+%			BASICS K-ANONYMITY
 % ==================================
 \section{Scenarios of incurring information loss in datasets}
-
 
 
 \subsection{Tabular anonymization}
@@ -223,7 +231,7 @@ Distance between a node and a cluster:
 \subsection{Process}
 \label{ssect:process}
 
-To examine the impact of perturbation and anonymization of datasets on the quality of a classification result, we designed the following processing pipeline:
+To examine the effect of perturbation and anonymization on classification performance, we designed the following processing pipeline:
 
 
 %\begin{enumerate}
@@ -236,12 +244,12 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 %\end{enumerate}
 
 
-\begin{figure}[!t]
+\begin{figure}[!h]
 	\begin{center}
-		\vspace{-1.0cm}
+		% \vspace{-1.0cm}
     	\hspace*{-0.8cm}
 		\includegraphics[width=1.1\textwidth]{figures/theory/important_columns_cut}
-		\caption{The attribute values of the adult dataset which contribute most positively / negatively to the classification result. The columns to the right strongly indicate a yearly income of above 50k, whereas the columns to the outer left indicate a yearly income of below 50k. The least significant columns in the middle part were cut out.}
+		\caption{Attribute values within the adult dataset which contribute highest / lowest certainty to the classification result. The rightmost columns represent information which enable a classifier to discern most clearly between classes, while the leftmost columns (depending on their actual score) could even confuse the algorithm. }
 		\label{fig:adult_important_columns}
 	\end{center}
 \end{figure}
@@ -257,25 +265,31 @@ To examine the impact of perturbation and anonymization of datasets on the quali
 \subsection{Perturbed Datasets - Selective Deletion}
 \label{ssect:selective_deletion}
 
-% We expected a steady decline in the quality of classification results over all three scenarios: 1) anonymization of datasets, 2) perturbation by selectively deleting attribute values of positive significance w.r.t the result, 3) perturbation by selectively deleting attribute values of negative significance w.r.t the result.
+In order to be able to compare the impact of selectively deleting the most (least) important attribute values (in fact, the whole data points containing those values) on different classifiers, we chose to select these values via examining the logit coefficients from logistic regression. Although this possibly entails non-erasure of the values specifically significant for each classifier, we chose algorithmic comparison as the more insightful criterion; the implicit assumption that the same values would influence all classifiers approximately the same was largely confirmed by our results.
 
-% The actual results satisfied our expectations only in the first two cases, with the shape of the actual outcomes being a little bit surprising. As can be seen in Figure~\ref{fig:adult_results_anonymization}, the F1 score of all algorithms applied declines more drastically at the beginning, with more benign further losses as the $k$-factor of anonymization increases. Whereas the F1 curves for gradient boosting, linear SVC and logistic regression approximate a $1/x$ curve, the random forest classifier reacts more sensitively to even slight anonymization, but seems to stay more robust with higher values of $k$.
+In contrast to binary classification, determining the 'right' values to delete for a multi-class problem is not always possible: Values contributing highly to the decision boundary for one class might be less significant in the case of another - accordingly one would expect inconclusive behavior in the case of a target for which the highest / log coefficients do not line up over class boundaries.
 
-% Considering the exact performance, Linear SVC and logistic regression yielded the worst outcomes under anonymization, which is not further surprising given their lower scores on the original input data to begin with.
+For each of the targets 'marital-status' and 'education-num' we thus measured the most (least) significant coefficients in the hope of improving / degrading algorithmic performance; that means deletion of highest logit's is supposed to remove certainty from an algorithm and decreasing performance, while deletion of lowest logit's is supposed to remove uncertainty, thus improving performance. Our analysis showed that while 'marital-status' had mainly the same most (least) significant logit's across all classes, 'education-num' displayed great diversity in this area.
+
+
+In the latter case this lead to erratic behavior of the resulting performance curves, as can be seen in (Figure~\ref{fig:results_perturbation_education_num}). It is interesting to note that 'income$\_>$50k' obviously held much larger significance for Logistic Regression than for the other classifiers, as their results showed improvement with this particular value eviscerating.
 
 
 \begin{figure*}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/perturbation/adults_education_num/perturb_education_combined}
-	\caption{Multi-class classification of education level under perturbation by selective deletion of important data attributes.}
+	\caption{Multi-class classification of 'education-num' under perturbation by selective deletion of the most (least) important data attributes.}
 	\label{fig:results_perturbation_education_num}
 \end{figure*}
+
+
+In the case of 'marital-status' the same attribute values were rated as most (least) significant across all classes - this results in very clear outputs with the erasure of highly important values decreasing performance drastically while deletion of confusing values leading to a significant increase in classifier performance. While it is not surprising that relationship information has high correlation with marital status, the opposite effects of \textit{sex\_Female} and \textit{sex\_Male} stand out as a slight curiosity.
 
 
 \begin{figure*}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/perturbation/adults_marital_status/perturb_marital_combined}
-	\caption{Multi-class classification of marital status under perturbation by selective deletion of important data attributes.}
+	\caption{Multi-class classification of 'marital-status' under perturbation by selective deletion of the most (least) important data attributes.}
 	\label{fig:results_perturbation_marital_status}
 \end{figure*}
 
