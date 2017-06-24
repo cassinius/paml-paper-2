@@ -76,7 +76,7 @@ Exponential trends in data generation are presenting todays organizations, econo
 %			RELATED WORK
 % ==================================
 
-\cite{Wimmer2014}
+A comparison of different Machine Learning algorithms on anonymized datasets was already conducted in 2014 (\cite{Wimmer2014}) by applying 6 different algorithms on 3 datasets, with very diverse results per algorithm. The main weakness of this paper is its usage of extremely differently-sized datasets which does not easily allow comparison; moreover they only used one very low privacy setting of $k=2$, preventing the authors from examining more interesting behavior as information content degrades further; this is a main point of our work.
 
 \cite{Majeed2017}
 
@@ -265,14 +265,14 @@ To examine the effect of perturbation and anonymization on classification perfor
 \subsection{Perturbed Datasets - Selective Deletion}
 \label{ssect:selective_deletion}
 
-In order to be able to compare the impact of selectively deleting the most (least) important attribute values (in fact, the whole data points containing those values) on different classifiers, we chose to select these values via examining the logit coefficients from logistic regression. Although this possibly entails non-erasure of the values specifically significant for each classifier, we chose algorithmic comparison as the more insightful criterion; the implicit assumption that the same values would influence all classifiers approximately the same was largely confirmed by our results.
+In order to be able to compare the impact of selectively deleting the most / least important attribute values (in fact, the whole data points containing those values) on different classifiers, we chose to select these values via examining the logit coefficients from logistic regression. Although this possibly entails non-erasure of the values specifically significant for each classifier, we chose algorithmic comparison as the more insightful criterion; the implicit assumption that the same attribute values would influence all classifiers approximately equally was largely confirmed by our results.
 
-In contrast to binary classification, determining the 'right' values to delete for a multi-class problem is not always possible: Values contributing highly to the decision boundary for one class might be less significant in the case of another - accordingly one would expect inconclusive behavior in the case of a target for which the highest / log coefficients do not line up over class boundaries.
+In contrast to binary classification, determining the 'right' values to delete for a multi-class problem is not always possible: Values contributing highly to the decision boundary for one class might be less significant in the case of another - accordingly one would expect inconclusive behavior in the case of a target for which the highest / lowest log coefficients do not line up over class boundaries.
 
-For each of the targets 'marital-status' and 'education-num' we thus measured the most (least) significant coefficients in the hope of improving / degrading algorithmic performance; that means deletion of highest logit's is supposed to remove certainty from an algorithm and decreasing performance, while deletion of lowest logit's is supposed to remove uncertainty, thus improving performance. Our analysis showed that while 'marital-status' had mainly the same most (least) significant logit's across all classes, 'education-num' displayed great diversity in this area.
+For each of the targets 'marital-status' and 'education-num' we measured those interesting coefficients in the hope of improving / degrading algorithmic performance; that means deletion of highest logit's is supposed to remove certainty from an algorithm and decreasing performance, while deletion of lowest logit's is supposed to remove uncertainty, thus improving performance. Our analysis showed that while 'marital-status' had mainly the same most / least significant logit's across all classes, the attribute values for 'education-num' were rather diverse in this area.
 
 
-In the latter case this lead to erratic behavior of the resulting performance curves, as can be seen in (Figure~\ref{fig:results_perturbation_education_num}). It is interesting to note that 'income$\_>$50k' obviously held much larger significance for Logistic Regression than for the other classifiers, as their results showed improvement with this particular value eviscerating.
+In the latter case this lead to erratic behavior of the resulting performance curves, as can be seen in (Figure~\ref{fig:results_perturbation_education_num}). It is interesting to note that 'income$\_>$50k' obviously held much larger significance for Logistic Regression than for the other classifiers, as their results showed f1 score improvement with this particular value eviscerating.
 
 
 \begin{figure*}[!h]
@@ -283,7 +283,7 @@ In the latter case this lead to erratic behavior of the resulting performance cu
 \end{figure*}
 
 
-In the case of 'marital-status' the same attribute values were rated as most (least) significant across all classes - this results in very clear outputs with the erasure of highly important values decreasing performance drastically while deletion of confusing values leading to a significant increase in classifier performance. While it is not surprising that relationship information has high correlation with marital status, the opposite effects of \textit{sex\_Female} and \textit{sex\_Male} stand out as a slight curiosity.
+In the case of 'marital-status' almost the same attribute values were rated as most / least significant across all classes - this results in very clear outputs with the erasure of highly important values decreasing performance drastically while deletion of confusing values leading to a significant increase in classifier performance (Figure~\ref{fig:results_perturbation_marital_status}). While it is not surprising that relationship information shows high correlation with marital status, the opposite effects of \textit{sex\_Female} and \textit{sex\_Male} stand out as a slight curiosity - being a woman in this dataset seems to point less distinctly to a specific marital status than being a man, seemingly at odds with a common sense view.
 
 
 \begin{figure*}[!h]
