@@ -70,25 +70,21 @@ Exponential trends in data generation are presenting todays organizations, econo
 %			INTRODCUTION
 % ==================================
 \section{Introduction and Motivation for Research}
-
+\label{sect:introduction}
 
 
 % ==================================
 %			BASICS K-ANONYMITY
 % ==================================
-\section{Scenarios of incurring information loss in datasets}
+\section{K-Anonymity and Information loss}
 
+While there several data-structures which can contain and convey personal information we might want to protect (free text, audio, images, graph structures etc.) we are focusing our work on tabular data, since most unstructured documents of sensitive nature today can be mapped to tabular data and since delicate information is most easily extracted from those. Figure~\ref{fig:anon_categories} illustrates the original tabular concept of three different categories of data we will encounter in such tables:
 
-\subsection{Tabular anonymization}
-\label{ssect:tab_anonym}
-
-% Figure~\ref{fig:anon_categories} illustrates the original tabular concept of anonymization: Given an input table with several columns, we will in all probability encounter three different categories of data:
-
-% \begin{itemize}
-%	\item \textbf{Personal identifiers} are data items which directly identify a person without having to cross-reference or further analyze them. Examples are first and last names, but even more so an (email) address or social security number (SSN). As personal identifiers are dangerous and cannot be generalized (see Figure~\ref{fig:gen_hierarchy}) in a meaningful way (e.g. one could generalize an email address by only retaining the mail provider fragment, but the result would not yield much usable information), this category of data is usually removed. The table shows this column in a red background color.
-%	\item \textbf{Sensitive data,} also called 'payload', which is the kind of data we want to convey for statistics or research purposes. Examples for this category would be disease classification, drug intake or personal income level. This data shall be preserved in the anonymized dataset and can therefore not be deleted or generalized. The table shows this column in a green background color.
-%	\item \textbf{Quasi identifiers (QI's)}, colored in the table with an orange background, are data that in themselves do not directly reveal the identity of a person, but might be used in aggregate to reconstruct it. For instance, \cite{sweeney2002k} mentioned that 87\% of U.S. citizens in 2002 had reported characteristics that made them vulnerable to identification based on just the 3 attributes \textit{zip code}, \textit{gender} and \textit{date of birth}. But although this data can be harmful in that respect, it might also hold vital information for the purpose of research (e.g. zip code could be of high value in a study on disease spread). The the actual point of all anonymization efforts is therefore to generalize this kind of information, which means to lower its level of granularity. As an example, one could generalize the ZIP codes 41074, 41075 and 41099 to an umbrella version 410**, as shown in Figure~\ref{fig:anonymized_clusters}.
-%\end{itemize}
+\begin{itemize}
+	\item \textbf{Identifiers} directly reveal the identity of a person without having further analysis of the data. Examples are first and last names, email address or social security number (SSN). As personal identifiers are hard to generalized (see Figure~\ref{fig:gen_hierarchy}) in a meaningful way (truncating an email address to 'host' would not yield much usable information), those columns are usually removed. The figure displays this column in a red background color.
+	\item \textbf{Sensitive data,} or 'payload', is crucial information for statisticians or researchers and can therefore not be erased or perturbed; such data usually remains untarnished within the released dataset. The table shows one column in green background color representing such data.
+	\item \textbf{Quasi identifiers (QI's)}, colored in the table with an orange background, do not directly identify a person (age=35), but can be used in combination to restrict possibilities to such a degree that a specific identity follows logically. For instance, \cite{sweeney2002k} mentioned that 87\% of U.S. citizens in 2002 could be re-identified by just using the 3 attributes \textit{zip code}, \textit{gender} and \textit{date of birth}. On the other hand, this information might hold significant information for the purpose of research (e.g. zip code could be of high value in a study on disease spread). Therefore we generalize this kind of information, which means to lower its level of granularity. As an example, one could generalize grades from A+ to B- into A's and B's and then further up to encompass 'all' (also denoted as '*'), as shown in Figure~\ref{fig:gen_hierarchy}.
+\end{itemize}
 
 \begin{figure}[!t]
 	\begin{center}

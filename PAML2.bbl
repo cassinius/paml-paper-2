@@ -6,6 +6,17 @@ Gagan Aggarwal, Tomas Feder, Krishnaram Kenthapadi, Rajeev Motwani, Rina
 \newblock Approximation algorithms for k-anonymity.
 \newblock {\em Journal of Privacy Technology (JOPT)}, 2005.
 
+\bibitem{lefevre2006mondrian}
+Kristen LeFevre, David~J DeWitt, and Raghu Ramakrishnan.
+\newblock Mondrian multidimensional k-anonymity.
+\newblock In {\em Data Engineering, 2006. ICDE'06. Proceedings of the 22nd
+  International Conference on}, pages 25--25. IEEE, 2006.
+
+\bibitem{li2011information}
+Jiuyong Li, Jixue Liu, Muzammil Baig, and Raymond Chi-Wing Wong.
+\newblock Information based data anonymization for classification utility.
+\newblock {\em Data \& Knowledge Engineering}, 70(12):1030--1045, 2011.
+
 \bibitem{Majeed2017}
 A~Majeed, F~Ullah, and S~Lee.
 \newblock {Vulnerability-and Diversity-Aware Anonymization of Personally
@@ -17,6 +28,12 @@ A~Majeed, F~Ullah, and S~Lee.
 Edward~H Simpson.
 \newblock Measurement of diversity.
 \newblock {\em Nature}, 1949.
+
+\bibitem{sweeney2002k}
+Latanya Sweeney.
+\newblock k-anonymity: A model for protecting privacy.
+\newblock {\em International Journal of Uncertainty, Fuzziness and
+  Knowledge-Based Systems}, 10(05):557--570, 2002.
 
 \bibitem{Wimmer2014}
 Hayden Wimmer and Loreen Powell.
