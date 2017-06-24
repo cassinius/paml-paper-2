@@ -72,15 +72,6 @@ Exponential trends in data generation are presenting todays organizations, econo
 \section{Introduction and Motivation for Research}
 
 
-% ==================================
-%			RELATED WORK
-% ==================================
-
-A comparison of different Machine Learning algorithms on anonymized datasets was already conducted in 2014 (\cite{Wimmer2014}) by applying 6 different algorithms on 3 datasets, with very diverse results per algorithm. The main weakness of this paper is its usage of extremely differently-sized datasets which does not easily allow comparison; moreover they only used one very low privacy setting of $k=2$, preventing the authors from examining more interesting behavior as information content degrades further; this is a main point of our work.
-
-\cite{Majeed2017}
-
-
 
 % ==================================
 %			BASICS K-ANONYMITY
@@ -136,6 +127,22 @@ A comparison of different Machine Learning algorithms on anonymized datasets was
 	\caption{Tabular anonymization: input table and anonymization result}
 	\label{fig:anonymized_clusters}
 \end{figure}
+
+
+
+% ==================================
+%			RELATED WORK
+% ==================================
+
+\section{Related Work}
+\label{sect:related_work}
+
+A comparison of different Machine Learning algorithms on anonymized datasets was already conducted in 2014 \cite{Wimmer2014} by applying 6 different algorithms on 3 datasets, with very diverse results per algorithm. The main weakness of this paper is its usage of extremely differently-sized datasets which does not easily allow comparison; moreover they only used one very low privacy setting of $k=2$, preventing the authors from examining more interesting behavior as information content degrades further; this is a main point of our work.
+
+The authors of \cite{Majeed2017} propose a scheme for controlling over-generalization of less identity-vulnerable QIs in diverse classes by determining the importance of QIs via Random Forest pre-computations as well as computing sensitive attribute diversity via the Simpson index \cite{simpson1949measurement}. Their resulting adaptive anonymization algorithm was compared to Mondrian \cite{lefevre2006mondrian} as well as IACk \cite{li2011information} and shows improvements w.r.t information loss as well as coverage (the number of descendant leaf nodes of generalized values in the taxonomy). Accuracy measured on classification tree, random forest and SVM shows equal or better performance when applied to a dataset anonymized by their proposed solution; it is interesting to note that their performance on large factors of $k$ not only remains stable, but in some cases increases with $k$, the same behavior we also observed in some of our experiments.
+
+
+% The authors of a recent paper \cite{KimHCeiling2017} propose the introduction of an additional requirement for anonymization on top of k-anonymity called h-ceiling, which simply restricts generalizations within an equivalence class to a certain level below suppression. In the case on an equivalence class being able to satisfy h-ceiling but not k-anonymity (their method applies full-domain generalization), counterfeit records are inserted into the respective group; each insertion is also collected in a journal which is eventually published with the anonymized data. Their approach unsurprisingly yields lower reconstruction error and information loss as well as more fine-grained query results due to less generalization. However, their experiments mostly fix $k=5$ and therefore simply try to reduce information loss due to anonymization, but do not try to examine ML performance over a wider range of k factors; moreover, there seems to be some inconsistency in their predictions.
 
 
 
