@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{aggarwal2005approximation}
 Gagan Aggarwal, Tomas Feder, Krishnaram Kenthapadi, Rajeev Motwani, Rina
@@ -34,6 +34,13 @@ A~Majeed, F~Ullah, and S~Lee.
   Identifiable Information for Improving User Privacy and Utility of Publishing
   Data}.
 \newblock {\em Sensors}, pages 1--23, 2017.
+
+\bibitem{malle2016right}
+Bernd Malle, Peter Kieseberg, Edgar Weippl, and Andreas Holzinger.
+\newblock The right to be forgotten: towards machine learning on perturbed
+  knowledge bases.
+\newblock In {\em International Conference on Availability, Reliability, and
+  Security}, pages 251--266. Springer, 2016.
 
 \bibitem{simpson1949measurement}
 Edward~H Simpson.
