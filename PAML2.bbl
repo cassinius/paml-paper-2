@@ -6,6 +6,17 @@ Gagan Aggarwal, Tomas Feder, Krishnaram Kenthapadi, Rajeev Motwani, Rina
 \newblock Approximation algorithms for k-anonymity.
 \newblock {\em Journal of Privacy Technology (JOPT)}, 2005.
 
+\bibitem{campan2009data}
+Alina Campan and Traian~Marius Truta.
+\newblock Data and structural k-anonymity in social networks.
+\newblock In {\em Privacy, Security, and Trust in KDD}, pages 33--54. Springer,
+  2009.
+
+\bibitem{LeeHCeiling2017}
+Hyukki Lee, Soohyung Kim, Jong Wook~Kim, and Yon Dohn~Chung.
+\newblock {Utility-preserving anonymization for health data publishing}.
+\newblock {\em BMC Medical Informatics and Decision Making}, 2017.
+
 \bibitem{lefevre2006mondrian}
 Kristen LeFevre, David~J DeWitt, and Raghu Ramakrishnan.
 \newblock Mondrian multidimensional k-anonymity.
