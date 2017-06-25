@@ -49,7 +49,7 @@
 % ==================================
 \begin{abstract}
 
-Exponential trends in data generation are presenting todays organizations, economies and governments with challenges never encountered before, especially in the field of privacy and data security. One crucial trade-off regulators are facing regards the simultaneous need for publishing personal information for the sake of statistical analysis and Machine Learning in order to increase quality levels in areas like medical services, while at the same time protecting the identity of individuals. A key European measure will be the introduction of the General Data Protection Regulation (GDPR) in 2018, giving customers the 'right to be forgotten', i.e. having their data deleted on request. As this could lead to a competitive disadvantage for European companies, it is important to understand which effects deletion of significant data points has on the performance of ML techniques. In a previous paper we introduced a series of experiments applying different algorithms to a binary classification problem under anonymization as well as perturbation. In this paper we extend those experiments by multi-class classification and introduce outlier-removal as an additional scenario. While the results of our previous work were mostly in-line with our expectations, our current experiments revealed unexpected behavior over a range of different scenarios.
+Exponential trends in data generation are presenting todays organizations, economies and governments with challenges never encountered before, especially in the field of privacy and data security. One crucial trade-off regulators are facing regards the simultaneous need for publishing personal information for the sake of statistical analysis and Machine Learning in order to increase quality levels in areas like medical services, while at the same time protecting the identity of individuals. A key European measure will be the introduction of the General Data Protection Regulation (GDPR) in 2018, giving customers the 'right to be forgotten', i.e. having their data deleted on request. As this could lead to a competitive disadvantage for European companies, it is important to understand which effects deletion of significant data points has on the performance of ML techniques. In a previous paper we introduced a series of experiments applying different algorithms to a binary classification problem under anonymization as well as perturbation. In this paper we extend those experiments by multi-class classification and introduce outlier-removal as an additional scenario. While the results of our previous work were mostly in-line with our expectations, our current experiments revealed unexpected behavior over a range of different scenarios. A surprising conclusion of those experiments is the fact that classification on an anonymized dataset with outliers removed in beforehand can almost compete with classification on the original, un-anonymized dataset. This could soon lead to competitive Machine Learning pipelines on anonymized datasets for real-world usage in the marketplace.
 
 
 \medskip
@@ -323,11 +323,13 @@ In the case of 'marital-status' almost the same attribute values were rated as m
 \end{figure}
 
 
-% The only real surprise occurred with applying our classifiers to the datasets perturbed by deleting percentages of attribute values indicating a low yearly income (Figure~\ref{fig:adult_results_perturbation_bottom}). As with scenario 2 we expected to see a progressive decline in performance - but with all classifiers the results either stayed approximately the same or even improved in some cases (please consider the extremely narrow scale in the respective plots). As the classification score is dependent on (in-)correctly classifying both positive and negative outcomes, this seems rather surprising and will require further investigation.
 
 
 \subsection{"Outliers" removed}
 \label{ssect:outliers_removed}
+
+One question we didn't tackle in our previous work was the one of outlier removal; this is relevant due to the fact that people showing abnormal behavior might be the ones 
+
 
 \begin{figure}[H]
 	\centering
@@ -344,15 +346,18 @@ In the case of 'marital-status' almost the same attribute values were rated as m
 \subsection{Anonymization on Outliers removed}
 \label{ssect:anon_outliers_removed}
 
+One problem with outliers during anonymization is that it forces the algorithm to over-generalize attribute values; this can either happen towards the end of a greedy-clustering algorithm like SaNGreeA (in which case the damage might be limited to the outliers themselves), but could also influence a full-domain generalizing algorithm during determination of a whole column's suitable generalization level (in which case the whole dataset would suffer significantly higher information loss). This fact in combination with our previously described results based on outlier removal gave rise to an interesting possibility: what if we \textit{combined} outlier removal with anonymization? On the one hand classifier performance degrades with loss of variance, but for the very same reason information loss during anonymization might also be limited to much more sufferable levels.
+
+This led to our last round of experiments in which we took the adult dataset with 30\% outliers removed and conducted k-anonymization as described in the respective earlier section (but only on marital-status), the results of which can be seen in Figure~\ref{fig:results_anonymization_outliers_marital_status}. We were astonished to see that classifier performance was better under this setting than under anonymization alone (for the most part). For logistic regression, although age \& race vectors performed worse then their anonymized-only counterparts, performance for equal weights was better for $k<11$. With Random Forest, all vectors performed better than their anonymization-only counterparts, with $k=3$ only 2\% below original performance. With Linear SVC, age \& race performed worse at the beginning with climbing performance towards $k=100$, whereas the equal vector behaved about equal to it's non-outlier-removed opposite. Finally, Gradient Boosting in this setting outperforms it's anonymization-only competitor in all settings with it's $k=3$ equal weight vector performance lying within half a percent of the performance on the original, un-anonymized dataset.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/anon_outliers/anon_outliers_marital_combined}
-	\caption{Multi-class classification on target marital status based on a dataset with 30\% outliers removed AND different degrees of k-anonymization.}
+	\caption{Multi-class classification on target marital status based on a dataset with 30\% outliers removed AND under different degrees of k-anonymization.}
 	\label{fig:results_anonymization_outliers_marital_status}
 \end{figure}
 
-
-
+Those amazing results raise a few burning questions: 1) Can we repeat that performance on real-world data? 2) Could we combine this technique with interactive Machine Learning / Anonymization to produce better weight vectors? 3) Do those advantages only hold for a toy algorithm or will they persist under more sophisticated Anonymization pipelines, 4) Can we further enhance those results by mixing synthetic data into the dataset, 5) Will better feature engineering compensate for our original drop in performance and thus moot our insight, and 6) can we apply this conclusion to other data structures like social networks. These points shall now briefly be described in our last section.
 
 
 % ==================================
@@ -380,6 +385,8 @@ In the case of 'marital-status' almost the same attribute values were rated as m
 \label{sect:conclusion}
 
 % This paper examined the question of how different ways of perturbing or anonymizing knowledge bases would influence the results of machine learning algorithms applied to those datasets. We have seen that newly introduced regulations (inside the European Union) as well as data privacy concerns of database owners naturally lead to the challenge of minimizing the cost / efficiency impact of those requirements not only on the technical, but also the machine learning infrastructure of affected businesses and organizations. Consequently, we conducted a series of experiments to simulate the decline in the F1 score of several classification algorithms on an established dataset. Our results show that selective deletion of valuable data items is less destructive than general anonymization, so that complying with regulations concerning the "right to be forgotten" is still preferable to taking preemptive steps to de-identify personal information in databases. Our results are highly selective however and should be corroborated by applying a wider spectrum of algorithms to larger, more diverse datasets.
+
+We believe that this insight, in combination with work on interactive Anonymization we are currently conducting, state-of-the art anonymization techniques (we were using a rather simple algorithm for this paper), as well as the introduction of synthetic data, will enable us to soon propose competitive Machine Learning pipelines for real-world usage to counterbalance any regulatory disadvantage for European companies on the marketplace.
 
 \clearpage
 \newpage
