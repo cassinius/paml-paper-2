@@ -326,13 +326,13 @@ In the case of 'marital-status' almost the same attribute values were rated as m
 % The only real surprise occurred with applying our classifiers to the datasets perturbed by deleting percentages of attribute values indicating a low yearly income (Figure~\ref{fig:adult_results_perturbation_bottom}). As with scenario 2 we expected to see a progressive decline in performance - but with all classifiers the results either stayed approximately the same or even improved in some cases (please consider the extremely narrow scale in the respective plots). As the classification score is dependent on (in-)correctly classifying both positive and negative outcomes, this seems rather surprising and will require further investigation.
 
 
-\subsection{Outliers removed}
+\subsection{"Outliers" removed}
 \label{ssect:outliers_removed}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.49\textwidth]{figures/outliers/outliers_removed_all_algos_blur_bright}
-	\includegraphics[width=0.49\textwidth]{figures/outliers/randomly_removed_points_all_algos_blur_bright}
+	\includegraphics[width=0.49\textwidth]{figures/outliers/outliers_removed_all_algos_std_blur_bright}
+	\includegraphics[width=0.49\textwidth]{figures/outliers/randomly_removed_points_all_algos_std_blur_bright}
 	\caption{Binary classification on target income based on a dataset with different degrees of outliers removed (= variance loss) vs. the same degree of data randomly deleted.}
 	\label{fig:results_outliers_removed}
 \end{figure}
