@@ -6,11 +6,38 @@ Gagan Aggarwal, Tomas Feder, Krishnaram Kenthapadi, Rajeev Motwani, Rina
 \newblock Approximation algorithms for k-anonymity.
 \newblock {\em Journal of Privacy Technology (JOPT)}, 2005.
 
+\bibitem{brain1999effect}
+Damien Brain and G~Webb.
+\newblock On the effect of data set size on bias and variance in classification
+  learning.
+\newblock In {\em Proceedings of the Fourth Australian Knowledge Acquisition
+  Workshop, University of New South Wales}, pages 117--128, 1999.
+
 \bibitem{campan2009data}
 Alina Campan and Traian~Marius Truta.
 \newblock Data and structural k-anonymity in social networks.
 \newblock In {\em Privacy, Security, and Trust in KDD}, pages 33--54. Springer,
   2009.
+
+\bibitem{iMLExperiment}
+A~Holzinger, M~Plass, K~Holzinger, GC~Crisan, CM~Pintea, and V~Palade.
+\newblock Towards interactive machine learning (iml): Applying ant colony
+  algorithms to solve the traveling salesman problem with the human-in-the-loop
+  approach.
+\newblock In {\em IFIP International Cross Domain Conference and Workshop
+  (CD-ARES)}, page in print. Springer, Heidelberg, Berlin, New York, 2016.
+
+\bibitem{Holzinger:2016:iML}
+Andreas Holzinger.
+\newblock Interactive machine learning for health informatics: When do we need
+  the human-in-the-loop?
+\newblock {\em Springer Brain Informatics (BRIN)}, 3(2):119--131, 2016.
+
+\bibitem{Kieseberg:2016:Doctor-in-the-Loop}
+Peter Kieseberg, Bernd Malle, Peter Frühwirt, Edgar Weippl, and Andreas
+  Holzinger.
+\newblock A tamper-proof audit and control system for the doctor in the loop.
+\newblock {\em Brain Informatics}, pages 1--11, 2016.
 
 \bibitem{LeeHCeiling2017}
 Hyukki Lee, Soohyung Kim, Jong Wook~Kim, and Yon Dohn~Chung.
@@ -58,5 +85,11 @@ Hayden Wimmer and Loreen Powell.
 \newblock {A Comparison of the Effects of K-Anonymity on Machine Learning
   Algorithms}.
 \newblock pages 1--9, 2014.
+
+\bibitem{wong2016understanding}
+Sebastien~C Wong, Adam Gatt, Victor Stamatescu, and Mark~D McDonnell.
+\newblock Understanding data augmentation for classification: when to warp?
+\newblock In {\em Digital Image Computing: Techniques and Applications (DICTA),
+  2016 International Conference on}, pages 1--6. IEEE, 2016.
 
 \end{thebibliography}

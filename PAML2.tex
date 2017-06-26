@@ -359,25 +359,28 @@ As a side-note, we observe that under these settings, SVC starts to mimic Random
 	\label{fig:results_anonymization_outliers_marital_status}
 \end{figure}
 
-Those amazing results raise a few burning questions: 1) Can we repeat that performance on real-world data? 2) Could we combine this technique with interactive Machine Learning / Anonymization which yield better weight vectors? 3) Do those advantages only hold for a toy algorithm or will they persist under more sophisticated Anonymization pipelines, 4) Can we further enhance those results by mixing synthetic data into the dataset, 5) Will better feature engineering compensate for our original drop in performance and thus moot our insight, and 6) can we apply this conclusion to other data structures like social networks. These points shall now briefly be discussed before concluding the paper.
+Those amazing results raise a few burning questions: 1) Can we repeat that performance on real-world data? 2) Could we combine this technique with interactive Machine Learning / Anonymization which yield better weight vectors? 3) Do those advantages only hold for a toy algorithm or will they persist under more sophisticated Anonymization pipelines? 4) Can we further enhance those results by mixing synthetic data into the dataset? 5) Will better feature engineering compensate for our original drop in performance and thus moot our insight? and 6) can we apply this conclusion to other data structures like social networks? These points shall now briefly be discussed before concluding the paper.
 
 
 % ==================================
 %			OPEN PROBLEMS
 % ==================================
-\section{Open problems Future challenges}
+\section{Open problems / Future challenges}
 \label{sect:op_fc}
 
-% \begin{itemize}
+\begin{enumerate}
+	\item \textbf{Real world data}. Despite the convenient availability of well-curated datasets with many thousands of data rows, actual industry datasets are usually orders of magnitudes larger. This has consequences for their internal data topology and thus the performance of ML algorithms; e.g. \cite{brain1999effect} observe that variance error can be expected to decrease as training set size increases (though this might have nothing to do with variance in the dataset itself).
 	
-%	\item \textbf{Find a natural dataset} which already contains a graph structure emerged in the real-world rather than a graph generator. We assume that for many modern applications the experiments conducted in this work would be highly relevant to social network analysis and anonymization, and we are planning to conduct such a research effort in a sequel to this investigation.
+	\item \textbf{Interactive machine learning}. We have demonstrated experiments with different weight vectors in our approach regarding anonymization. However, data utility is highly subjective w.r.t. the specific area of application; therefore choosing the importance of attributes with regard to the particular environment is best done by a human. The problem of (k-)anonymization thus lends itself to interactive Machine Learning (iML) with a human-in-the-loop approach \cite{Holzinger:2016:iML}, \cite{Kieseberg:2016:Doctor-in-the-Loop}, \cite{iMLExperiment}. We have implemented software for iML Anonymization and are currently collecting test results which will soon be ready for publication.
 	
-%	\item \textbf{Consider the structural information loss} on a suitable real-world graph and re-apply our methodology to that data-structure. Once realistic results have been obtained, the effects of the same algorithm on artificially generated graphs might be examined, offering another perspective on the information content / structure introduced into datasets by different types of such generators.
+	\item \textbf{Real world algorithms}. While we only anonymizing our datasets via simple k-anonymization through greedy clustering, there are much more sophisticated algorithms available, capable of fine-tuning generalization levels to the specific data topology of an input set in order to minimize information loss. It remains to be seen if such algorithms can still profit from removal of outliers as a pre-processing step.
 	
-%	\item \textbf{Analyze the exact influence} different kinds of information loss due to anonymization / perturbation have on the different algorithms. In this work, we have only chosen a series of classifiers to demonstrate our approach. However, other classes of machine learning algorithms might yield interesting results as well, and we are motivated to conduct such future research ourselves.
+	\item \textbf{Synthetic datasets}. In recent years it has become common to augment (small) datasets via synthetically generated, additional data-points \cite{wong2016understanding}. By controlling the data generation process, one would be able to also control variance-injection into a dataset. Therefore, instead of outlier-removal, one could enrich a dataset by introducing lower-variance data points before anonymization.
 	
-%	\item \textbf{Interactive machine learning}. We have, amongst other settings, experimented with different weight vectors in our approach regarding anonymization. However, such parameters do not easily lend themselves to be produced by an algorithm, since minimizing an artificial metric of information loss  does not produce safe datasets in itself. Moreover, data utility is highly dependent on the specific area of application; therefore choosing parameters with regard to the particular demographic and cultural clinical environment is best done by a human agent. The problem of (k-)anonymization thus represents a natural application domain for interactive Machine Learning (iML) with a human-in-the-loop \cite{Holzinger:2016:iML}, \cite{Kieseberg:2016:Doctor-in-the-Loop}, \cite{iMLExperiment}. The authors will strive to design and implement such experiments in the future.
-% \end{itemize}
+	\item \textbf{Better feature engineering}. For our experiments, we considered practically all columns of the adult dataset, although some exhibited much higher variance than others. It is therefore conceivable that by careful feature engineering the basis for anonymization could be sufficiently improved, rendering outlier-removal unnecessary.
+
+	\item \textbf{Graph structure anonymization}. This includes questions of measuring structural outliers in a graph (maybe via centrality- or component-based analysis?) as well as outlier removal (do they have to be deleted or will randomly adding edges to such nodes suffice?). Our team is currently devising experiments in this direction, but our efforts are still in the early stages.
+\end{enumerate}
 
 
 % ==================================
@@ -386,23 +389,12 @@ Those amazing results raise a few burning questions: 1) Can we repeat that perfo
 \section{Conclusion}
 \label{sect:conclusion}
 
-% This paper examined the question of how different ways of perturbing or anonymizing knowledge bases would influence the results of machine learning algorithms applied to those datasets. We have seen that newly introduced regulations (inside the European Union) as well as data privacy concerns of database owners naturally lead to the challenge of minimizing the cost / efficiency impact of those requirements not only on the technical, but also the machine learning infrastructure of affected businesses and organizations. Consequently, we conducted a series of experiments to simulate the decline in the F1 score of several classification algorithms on an established dataset. Our results show that selective deletion of valuable data items is less destructive than general anonymization, so that complying with regulations concerning the "right to be forgotten" is still preferable to taking preemptive steps to de-identify personal information in databases. Our results are highly selective however and should be corroborated by applying a wider spectrum of algorithms to larger, more diverse datasets.
+In this paper we continued our initial experiments on the effects of anonymization and perturbation of knowledge bases on classifier performance and expanded our efforts to multi-class classification, outlier-removal as well as a combined outlier/anonymization approach. Our results show that selective deletion of significant attribute values is preferable to general anonymization, insofar a dataset's topology allows for such conduct. We have furthermore seen that reducing variance in a dataset prevents algorithms of different breeds alike from finding efficient discriminators between classes, leading to a significant degradation of machine learning performance. Finally, we were astonished to observe that combining outlier-removal with anonymization can - under circumstances - yield almost as good a performance as classification on the original, un-anonymized dataset itself. We believe that this insight, in combination with work on interactive Anonymization we are currently conducting, state-of-the art anonymization techniques (we were using a rather simple algorithm for this paper), as well as the introduction of synthetic data, will enable us to soon propose competitive Machine Learning pipelines for real-world usage to counterbalance any regulatory disadvantage European companies are currently facing on the marketplace.
 
-We believe that this insight, in combination with work on interactive Anonymization we are currently conducting, state-of-the art anonymization techniques (we were using a rather simple algorithm for this paper), as well as the introduction of synthetic data, will enable us to soon propose competitive Machine Learning pipelines for real-world usage to counterbalance any regulatory disadvantage for European companies on the marketplace.
-
-% \clearpage
-% \newpage
+\clearpage
+\newpage
 
 \bibliographystyle{plain}
 \bibliography{references}
 
 \end{document}
-
-
-% \begin {comment}
-% \section{Glossary and Key Terms}
-% NOTE: this section may not to be used for a conference
-% \textbf{Note: This is only for use when producing a Springer LNCS SOTA State-of-the-Art-Analysis paper}
-% \\[0,2cm]
-% \emph{SaNGreeA} is the abbreviation for Social Network Greedy Anonymization, which describes an anonymization algorithm which takes into account information loss as well as structural loss (from anonymizing the neighborhood of a network node). It is said to be greedy as it uses greedy clustering under the hood in order to avoid having to sift through an exponential solution space to find an optimum.
-% \end{comment}
