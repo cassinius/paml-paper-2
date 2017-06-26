@@ -98,7 +98,7 @@ While there several data-structures which can contain and convey personal inform
 
 %The process of generalization works through a concept called \textit{generalization hierarchies}, which form a tree, whose root denotes the most general value available for an attribute (usually the 'all' value) and then branches to more and more specific occurrences, with its leafs representing the set of exact, original values (see Figure~\ref{fig:gen_hierarchy}). In generalizing the original input value, one traverses the tree from the leaf level upwards until a prerequisite is fulfilled. Usually, this comes in the form of the k-anonymity requirement, so that we want to find a group of other data entries whose generalized QI's match the data point being processed.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=\textwidth]{figures/theory/gen_hierarchy}
 		\caption{Example of a typical generalization hierarchy}
@@ -111,7 +111,7 @@ While there several data-structures which can contain and convey personal inform
 
 %Each level of generalization involves a certain cost in information loss, so we do not want to construct our clusters in any random sequence but minimize the overall information loss \cite{aggarwal2005approximation}. This makes k-anonymization an NP-hard problem due to an exponential number of possible generalized QI combinations.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\begin{minipage}[b]{0.535\textwidth}
 		\includegraphics[width=\textwidth]{figures/theory/k_anon_input}
@@ -157,7 +157,7 @@ The following sections will describe our series of experiments in detail, encomp
 As input data we chose the training set of the adults dataset from the UCI Machine Learning repository which was generated from US census data and contains approximately 32,000 entries (30162 after deleting rows with incomplete information). All but one columns were considered for experimentation, the remaining representing duplicate information (education $=>$ education\_num). Figure~\ref{fig:adult_original_distribution} shows the attribute value distribution of 6 arbitrarily selected columns of the original dataset.
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
     \hspace*{-0.8cm}
 		\includegraphics[width=1.1\textwidth]{figures/theory/dist_initial_small}
@@ -168,7 +168,7 @@ As input data we chose the training set of the adults dataset from the UCI Machi
 
 % As one can see, there are several attributes with one value clearly dominating the others; \textit{native-country} being the most prominent example with the entry for the United States dwarfing all other countries (which comes as no surprise given the data origin). As anonymization generalizes different countries together if necessary, it was interesting for the author to see how these distributions would change under a relatively large k-factor. Figure~\ref{fig:adult_anonymized_distribution} shows the same attribute distribution with its values anonymized by a factor of $k=19$. Although the dominance of the United states was successfully "broken" by this method, in several instances the \textit{generalized-to-all}-value (*) now skews the data set even more. Apart from the expected generalization information loss this is another reason why one would assume worse results from a machine learning classifier applied to an anonymized dataset.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
     	\hspace*{-0.8cm}
 		\includegraphics[width=1.1\textwidth]{figures/theory/dist_anonym_small}
@@ -211,9 +211,10 @@ And the normalized generalization information loss by:
 \text{NGIL}(G,S) = \frac{\text{GIL}(G,S)}{n \cdot (s+t)}
 \end{equation*}
 
-% The SIL is composed of two different components: 1) the intra-cluster structural loss, signifying the error probability in trying to reconstruct the original edge distribution within an equivalence class (= anonymized cluster), and 2) the inter-cluster structural loss which represents the error probability in trying to reconstruct the original configuration of edges between two equivalence classes.
 
-% For the exact mathematical definitions of SIL \& NSIL the reader is kindly referred to the original paper. Because the structural information loss cannot be computed exactly before the final construction of clusters, the exact computations were replaced by the following distance measures: \\
+As for the networking-part of this algorithm, it introduces a measure called \textit{structural information loss} (SIL). The SIL is composed of two different components, which represent statistical errors of 1) intra-cluster as well as 2) inter-cluster reconstruction.
+
+For the exact mathematical definitions of SIL \& NSIL the reader is kindly referred to the original paper. Because the structural information loss cannot be computed exactly before the assembly of all clusters is completed, the exact computations were replaced by the following distance measures: \\
 
 Distance between two nodes:
 \begin{equation*}
@@ -225,18 +226,13 @@ Distance between a node and a cluster:
 \text{dist}(X, cl) = \frac{\sum_{X^j \epsilon cl} \text{dist}(X, X^j) }{\abs{cl}}
 \end{equation*}
 
-
-% The algorithm starts with initializing a first cluster by a randomly choosing a node. Then, for every new node encountered, the weighted sum of the above two information loss metrics will yield a certain overall information loss in case the node was added to that cluster - the candidate with minimal information loss is then added to the cluster. This process is repeated until the cluster reaches a certain constraint (e.g. size $ \coloneqq  k $ -factor) upon which another random node is chosen to constitute the next cluster. This procedure is repeated until all nodes have been assigned; if a cluster of size $< k$ should remain, its member nodes are dispersed accordingly.
-
-% Since the algorithm does not take all possible node combinations into account, but simply chooses an arbitrary node and compares all the candidates in a loop, the algorithm runs in quadratic time w.r.t. the input size in number of nodes. This worked well within milliseconds for a problem size of a few hundred nodes, but took up to 60 mins. on the whole adult dataset.
-
-% In implementing and demonstrating this algorithm, the authors intended to recreate the original paper's experiment. However, as no suitable real-world graph structure was available to the authors at the time of this writing and any artificially generated network would result in dubious results for the classification tasks applied, we decided to leave out the structural component of the algorithm and focus only on the generalization information loss for this paper, leaving the entire approach to future research initiatives.
+Since SaNGreeA follows the greedy-clustering paradigm, it runs in quadratic time w.r.t. the input size in number of nodes. This worked well within milliseconds for a problem size of a few hundred nodes, but took up to 60 minutes on the whole adult training dataset. Finally, as stated above, we chose SaNGreeA for its intuitive simplicity and graph anonymization capabilities, the latter of which are serving us well in a different branch of our ongoing research efforts; for the experiments in this paper, we restricted ourselves to the tabular anonymization capabilities of the algorithm.
 
 
-\subsection{Process}
-\label{ssect:process}
+\subsection{Data processing}
+\label{ssect:data_processing}
 
-To examine the effect of perturbation and anonymization on classification performance, we designed the following processing pipeline:
+To examine the effect of perturbation, anonymization, outlier-removal as well as outlier-removal+anonymization on classifier performance, we designed the following processing pipeline:
 
 
 %\begin{enumerate}
@@ -249,7 +245,7 @@ To examine the effect of perturbation and anonymization on classification perfor
 %\end{enumerate}
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
 		% \vspace{-1.0cm}
     	\hspace*{-0.8cm}
@@ -271,20 +267,19 @@ To examine the effect of perturbation and anonymization on classification perfor
 \subsection{Perturbed Datasets - Selective Deletion}
 \label{ssect:selective_deletion}
 
-In order to be able to compare the impact of selectively deleting the most / least important attribute values (in fact, the whole data points containing those values) on different classifiers, we chose to select these values via examining the logit coefficients from logistic regression. Although this possibly entails non-erasure of the values specifically significant for each classifier, we chose algorithmic comparison as the more insightful criterion; the implicit assumption that the same attribute values would influence all classifiers approximately equally was largely confirmed by our results.
+In order to be able to compare the impact of selectively deleting the most / least important attribute values (in fact, the whole data points containing those values) on different classifiers, we chose to select these values via examining the logit coefficients produced during logistic regression. Although this possibly entails non-erasure of the values specifically significant for each classifier, we chose algorithmic comparison as the more insightful criterion; the implicit assumption that the same attribute values would influence all classifiers approximately equally was largely confirmed by our results.
 
 In contrast to binary classification, determining the 'right' values to delete for a multi-class problem is not always possible: Values contributing highly to the decision boundary for one class might be less significant in the case of another - accordingly one would expect inconclusive behavior in the case of a target for which the highest / lowest log coefficients do not line up over class boundaries.
 
 For each of the targets 'marital-status' and 'education-num' we measured those interesting coefficients in the hope of improving / degrading algorithmic performance; that means deletion of highest logit's is supposed to remove certainty from an algorithm and decreasing performance, while deletion of lowest logit's is supposed to remove uncertainty, thus improving performance. Our analysis showed that while 'marital-status' had mainly the same most / least significant logit's across all classes, the attribute values for 'education-num' were rather diverse in this area.
 
-
 In the latter case this lead to erratic behavior of the resulting performance curves, as can be seen in (Figure~\ref{fig:results_perturbation_education_num}). It is interesting to note that 'income$\_>$50k' obviously held much larger significance for Logistic Regression than for the other classifiers, as their results showed f1 score improvement with this particular value eviscerating.
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/perturbation/adults_education_num/perturb_education_combined}
-	\caption{Multi-class classification of 'education-num' under perturbation by selective deletion of the most / least contributing attribute values. Since different values are significant for deciding on different classes of education level, progressive deletion of this data results in indeterminate behavior.}
+	\caption{Multi-class classification on target \textit{education-num} under perturbation by selective deletion of the most / least contributing attribute values. Since different values are significant for deciding on different classes of education level, progressive deletion of this data results in indeterminate behavior.}
 	\label{fig:results_perturbation_education_num}
 \end{figure}
 
@@ -292,10 +287,10 @@ In the latter case this lead to erratic behavior of the resulting performance cu
 In the case of 'marital-status' almost the same attribute values were rated as most / least significant across all classes - this results in very clear outputs with the erasure of highly important values decreasing performance drastically while deletion of confusing values leading to a significant increase in classifier performance (Figure~\ref{fig:results_perturbation_marital_status}). While it is not surprising that relationship information shows high correlation with marital status, the opposite effects of \textit{sex\_Female} and \textit{sex\_Male} stand out as a slight curiosity - being a woman in this dataset seems to point less distinctly to a specific marital status than being a man.
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/perturbation/adults_marital_status/perturb_marital_combined}
-	\caption{Multi-class classification of 'marital-status' under perturbation by selective deletion of the most / least contributing attribute values. Since the same values are significant for deciding different classes of marital status, progressive deletion leads to orderly increase / decrease of ML performance.}
+	\caption{Multi-class classification on target \textit{marital-status} under perturbation by selective deletion of the most / least contributing attribute values. Since the same values are significant for deciding different classes of marital status, progressive deletion leads to orderly increase / decrease of ML performance.}
 	\label{fig:results_perturbation_marital_status}
 \end{figure}
 
@@ -304,21 +299,25 @@ In the case of 'marital-status' almost the same attribute values were rated as m
 \subsection{Anonymized Datasets}
 \label{ssect:anonymized_ds}
 
+Analogous to our previous work \cite{malle2016right} we performed anonymization on the adult dataset for a range of values of $k$, but this time extending the range to $k \in \{3, 7, 11, 15, 19, 23, 27, 31, 35, 100\}$ for a broader observational basis of algorithmic behavior, especially towards higher values of $k$, as already conducted by other researchers \cite{Majeed2017}, \cite{LeeHCeiling2017}. As we set out to examine multi-class classification performance, we chose the 'marital-status' and 'education-num' columns of the adult dataset as targets, treating income as an independent input feature. For 'marital-status' we left the 7 categorical values in the original dataset unchanged, whereas we clustered the 16 continuous 'education-num' levels into the 4 groups 'elementary school', 'high school including graduate', 'college up to Bachelors' as well as 'advanced studies'.
 
-% As far as the second case is concerned (Figure~\ref{fig:results_perturbation_marital_status}), our experiments showed the expected drop in algorithm performance, although the impact shows a different behavior: In the case of deleting rows with capital gain values of $>$ 2000 US-Dollars, the decline seems to be linear, whereas for the other two attribute values the performance seems to collapse with higher rates of erasure. Moreover, this behavior is more or less the same for all applied algorithms. This seems to point to the fact that especially significant attribute values can uphold a good performance even in low quantities.
+Our observation generally show the same type of behavior than in our previous experiments on target \textit{income}, with one notable exception: The Random Forest classifier shows a sharp drop in algorithmic performance when operating on the very skewed 'age' and 'race' feature vectors, only to recover its discriminative power and increase in performance up to a $k$ of $100$. We also note a somewhat similar behavior for Logistic Regression, albeit not as distinctly. A possible explanation for this behavior could lie in the \textit{bagging}-nature of Random Forest, meaning that the algorithm bootstraps by randomly sampling data-points from the overall population into possibly overlapping bags of 'local' data. As larger swaths of the input data become more and more equal with increasing levels of $k$, this would lead to less local over-fitting, thus making the job easier for a global averaging-strategy to filter out variance and improve generalization ability. However, if this was true, the maximum performance should not be recorded on the original (un-anonymized) dataset, thus we are currently at a loss of an adequate explanation for this specific case.
 
-\begin{figure}[H]
+
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/anonymization/adults_education_num/anon_education_combined}
-	\caption{Multi-class classification of education num on the adult dataset under several degrees of k-anonymization.}
+	\caption{Multi-class classification on target \textit{education-num} on the adult dataset under several degrees of k-anonymization.}
 	\label{fig:results_anonymization_education_num}
 \end{figure}
 
+Classifier performance on target \textit{marital-status} displayed the same basic behavior as above, including the mysterious conduct of the Random Forest in case of our age- and race-vectors. Moreover, the classification results are generally better than for \textit{education-num}, which is probably caused by our somewhat arbitrary clustering of education levels during pre-processing. All in all, the pure anonymization-related results were almost in line with our expectations.
 
-\begin{figure}[H]
+
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/anonymization/adults_marital_status/anon_marital_combined}
-	\caption{Multi-class classification of marital status on the adult dataset under several degrees of k-anonymization.}
+	\caption{Multi-class classification on target \textit{marital-status} on the adult dataset under several degrees of k-anonymization.}
 	\label{fig:results_anonymization_marital_status}
 \end{figure}
 
@@ -350,7 +349,9 @@ One problem with outliers during anonymization is that it forces the algorithm t
 
 This led to our last round of experiments in which we took the adult dataset with 30\% outliers removed and conducted k-anonymization as described in the respective earlier section (for time- and comparison reasons only on marital-status), the results of which can be seen in Figure~\ref{fig:results_anonymization_outliers_marital_status}. We were astonished to observe that - for the most part - classifiers performed better under this setting than under anonymization alone. For logistic regression, although age \& race vectors performed worse then their anonymized-only counterparts, performance for equal weights was better for $k<11$. With Random Forest, all vectors performed better than their anonymization-only counterparts, with $k=3$ only 2\% below original performance. With Linear SVC, age \& race performed worse at the beginning only to recover with increasing performance towards $k=100$, whereas the equal vector behaved about equal to it's non-outlier-removed opposite. Finally, Gradient Boosting in this setting outperforms it's anonymization-only competitor in all settings with it's $k=3$ equal weight vector performance lying within only half a percentage point of the performance on the original, un-anonymized dataset.
 
-\begin{figure}[H]
+As a side-note, we observe that under these settings, SVC starts to mimic Random Forest's behavior of an initial collapse in performance for the age- and range-vectors with a subsequent recovery towards higher levels of $k$. We do not yet have an adequate explanation for this and will investigate deeper in our future efforts. 
+
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/anon_outliers/anon_outliers_marital_combined}
 	\caption{Multi-class classification on target marital status based on a dataset with 30\% outliers removed AND under different degrees of k-anonymization.}
@@ -388,8 +389,8 @@ Those amazing results raise a few burning questions: 1) Can we repeat that perfo
 
 We believe that this insight, in combination with work on interactive Anonymization we are currently conducting, state-of-the art anonymization techniques (we were using a rather simple algorithm for this paper), as well as the introduction of synthetic data, will enable us to soon propose competitive Machine Learning pipelines for real-world usage to counterbalance any regulatory disadvantage for European companies on the marketplace.
 
-\clearpage
-\newpage
+% \clearpage
+% \newpage
 
 \bibliographystyle{plain}
 \bibliography{references}
