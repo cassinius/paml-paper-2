@@ -154,10 +154,10 @@ The following sections will describe our series of experiments in detail, encomp
 \subsection{Data} 
 \label{ssect:data}
 
-As input data we chose the training set of the adults dataset from the UCI Machine Learning repository which was generated from US census data and contains approximately 32,000 entries (30162 after deleting rows with incomplete information). All but one columns were considered for experimentation, the remaining representing duplicate information (education $=>$ education\_num). Figure~\ref{fig:adult_original_distribution} shows the attribute value distribution of 6 arbitrarily selected columns of the original dataset.
+As input data we chose the training set of the adults dataset from the UCI Machine Learning repository which was generated from US census data and contains approximately 32,000 entries (30162 after deleting rows with incomplete information). All but one columns were considered for experimentation, the remaining representing duplicate information (education $=>$ education\_num). Figure~\ref{fig:adult_original_distribution} shows the attribute value distribution of 6 arbitrarily selected columns of the original (un-anonymized) dataset.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\begin{center}
     \hspace*{-0.8cm}
 		\includegraphics[width=1.1\textwidth]{figures/theory/dist_initial_small}
@@ -166,13 +166,13 @@ As input data we chose the training set of the adults dataset from the UCI Machi
 	\end{center}
 \end{figure}
 
-% As one can see, there are several attributes with one value clearly dominating the others; \textit{native-country} being the most prominent example with the entry for the United States dwarfing all other countries (which comes as no surprise given the data origin). As anonymization generalizes different countries together if necessary, it was interesting for the author to see how these distributions would change under a relatively large k-factor. Figure~\ref{fig:adult_anonymized_distribution} shows the same attribute distribution with its values anonymized by a factor of $k=19$. Although the dominance of the United states was successfully "broken" by this method, in several instances the \textit{generalized-to-all}-value (*) now skews the data set even more. Apart from the expected generalization information loss this is another reason why one would assume worse results from a machine learning classifier applied to an anonymized dataset.
+Amongst these distribution, two clearly stand out: \textit{native-country} as well as \textit{hours-per-week}, which are both dominated by a single attribute value (\textit{United-States} and \textit{40}, respectively). In order to demonstrate the effect of anonymization on attribute value distributions, Figure~\ref{fig:adult_anonymized_distribution} shows the same attribute distributions under anonymization by a factor of $k=19$. Although the dominance of the \textit{United-States} was successfully "broken" by this method, in several instances the \textit{generalized-to-all}-value (*) now skews the data set even more. In addition to the incurred information loss this might be another reason for degraded classifier performance on such data.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\begin{center}
     	\hspace*{-0.8cm}
 		\includegraphics[width=1.1\textwidth]{figures/theory/dist_anonym_small}
-		\caption{Anonymized distribution of six selected data columns of the adult dataset, anonymization factor of k=19, equal weight for each attribute.}
+		\caption{Anonymized distribution of six selected data columns of the adult dataset, anonymization factor $k=19$, with equal weight for each attribute.}
 		\label{fig:adult_anonymized_distribution}
 	\end{center}
 \end{figure}
@@ -203,6 +203,7 @@ where:\\
 
 
 The total generalization information loss is then given by:
+
 \begin{equation*}
 \text{GIL}(G,S) = \sum_{j=1}^{v} \text{GIL}(cl_j)
 \end{equation*}
@@ -229,20 +230,20 @@ Distance between a node and a cluster:
 Since SaNGreeA follows the greedy-clustering paradigm, it runs in quadratic time w.r.t. the input size in number of nodes. This worked well within milliseconds for a problem size of a few hundred nodes, but took up to 60 minutes on the whole adult training dataset. Finally, as stated above, we chose SaNGreeA for its intuitive simplicity and graph anonymization capabilities, the latter of which are serving us well in a different branch of our ongoing research efforts; for the experiments in this paper, we restricted ourselves to the tabular anonymization capabilities of the algorithm.
 
 
-\subsection{Data processing}
-\label{ssect:data_processing}
+\subsection{Dataset creation}
+\label{ssect:dataset_creation}
 
 To examine the effect of perturbation, anonymization, outlier-removal as well as outlier-removal+anonymization on classifier performance, we designed the following processing pipeline:
 
 
-%\begin{enumerate}
-%	\item Taking the original (preprocessed) dataset as input, we transformed its attributes to boolean values, so instead of \textit{native-country $->$ United-States} we considered \textit{United-States $->$ yes / no}.
-%	\item We then ran 4 different classifiers on it and computed precision, recall as well as F1 score. The four classifiers used were \textit{gradient boosting}, \textit{random forest}, \textit{logistic regression} and \textit{linear SVC}.
-%	\item From the obtained results we extracted the 3 attribute values most contributing to a "positive" ($>$50k) result as well as the top 3 attribute values indicating a "negative" ($<=$50k) prediction as depicted in Figure~\ref{fig:adult_important_columns}
-%	\item For each of these 6 attribute values, we subsequently deleted a specific percentage of data rows containing that value from the original dataset, resulting in 30 reduced datasets. The 5 percentages used were $0.2$, $0.4$, $0.6$, $0.8$ as well as $1.0$.
-%	\item To each of those datasets we re-applied the four chosen classifiers successively and recorded the respective impact on the quality of the classification result. The results can be seen in Figure~\ref{fig:adult_results_perturbation_top} and Figure~\ref{fig:adult_results_perturbation_bottom}.
-%	\item In order to measure the effects of k-anonymization on classifier performance, we used the SaNGreeA's GIL component described in the following section to generate datasets with a k-factor of $k=3$, $k=7$, $k=11$, $k=15$ as well as $k=19$. Furthermore, we used each of these settings with 3 different weight vectors: 1) equal weights for all attributes, 2) age information preferred ($\omega(age)=0.88$, $\omega(other\_attributes)=0.01$) and 3) race information preferred ($\omega(race)=0.88$, $\omega(other\_attributes)=0.01$). We then re-executed all classifiers on the resulting 15 datasets and recorded the respective results, which can be seen in Figure~\ref{fig:adult_results_anonymization}.
-%\end{enumerate}
+\begin{enumerate}
+	\item Taking the original (preprocessed) dataset as input, we transformed its attributes to boolean values, so instead of \textit{native-country $->$ United-States} we considered \textit{United-States $->$ yes / no}.
+	\item We ran 4 different classifiers on the resulting data and computed their respective F1 score. The 4 classifiers used were \textit{gradient boosting} representing the boosting paradigm, \textit{random forest} representing the bagging technique, \textit{logistic regression} as a representative of categorical prediction via optimization of a coefficient vector, as well as \textit{linear SVC} representing Support Vector Machines constructing hyperplanes in sufficiently high-dimensional spaces.
+	\item For our perturbation experiments, we extracted the most / least significant attribute values according to the logit coefficients as depicted in Figure~\ref{fig:adult_important_columns}. For each of these attribute values, we subsequently deleted a specific percentage $p \in \{0.2, 0.4, 0.6, 0.8, 1.0 \}]$ of data rows containing that value, resulting in a series of new datasets of reduced size.
+	\item In order to measure the effects of k-anonymization on classifier performance, we applied SaNGreeA's GIL component to generate datasets with a k-factor of $k \in \{3, 7, 11, 15, 19, 23, 27, 31, 35, 100\}$. Furthermore, we used each of these settings with 3 different weight vectors: 1) equal weights for all attributes, 2) age information preferred ($\omega(age)=0.88$, $\omega(other\_attributes)=0.01$) and 3) race information preferred ($\omega(race)=0.88$, $\omega(other\_attributes)=0.01$).
+	\item The outlier-removal datasets were created by executing scikit-learn's Isolation-Forest in order to identify and remove outliers in a range of $5\% - 95\%$ (stepsize: $5\%$) from the original dataset. This resulted in 18 new datasets for analysis.
+	\item Finally, in order to analyze classifier performance on an outlier/anonymization combination, we repeated the procedure described for anonymization on a surrogate dataset that had $30\%$ of its outliers removed in beforehand.
+\end{enumerate}
 
 
 \begin{figure}[h]
