@@ -69,16 +69,26 @@ Exponential trends in data generation are presenting todays organizations, econo
 % ==================================
 %			INTRODCUTION
 % ==================================
-\section{Introduction and Motivation for Research}
+\section{Introduction and Related Work}
 \label{sect:introduction}
 
 
+A comparison of different Machine Learning algorithms on anonymized datasets was already conducted in 2014 \cite{Wimmer2014} by applying 6 different algorithms on 3 datasets, with very diverse results per algorithm. The main weakness of this paper is its usage of extremely differently-sized datasets which does not easily allow comparison; moreover they only used one very low privacy setting of $k=2$, preventing the authors from examining more interesting behavior as information content degrades further; this is a main point of our work.
+
+The authors of \cite{Majeed2017} propose a scheme for controlling over-generalization of less identity-vulnerable QIs in diverse classes by determining the importance of QIs via Random Forest pre-computations as well as computing sensitive attribute diversity via the Simpson index \cite{simpson1949measurement}. Their resulting adaptive anonymization algorithm was compared to Mondrian \cite{lefevre2006mondrian} as well as IACk \cite{li2011information} and shows improvements w.r.t information loss as well as coverage (the number of descendant leaf nodes of generalized values in the taxonomy). Accuracy measured on classification tree, random forest and SVM shows equal or better performance when applied to a dataset anonymized by their proposed solution; it is interesting to note that their performance on large factors of $k$ not only remains stable, but in some cases increases with $k$, the same behavior we also observed in some of our experiments.
+
+
+A recent paper \cite{LeeHCeiling2017} proposes the introduction of an additional requirement for anonymization on top of k-anonymity called h-ceiling, which simply restricts generalizations within an equivalence class to a certain level below suppression. In the case on an equivalence class being able to satisfy h-ceiling but not k-anonymity (their method applies full-domain generalization), counterfeit records are inserted into the respective group; each insertion is also collected in a journal which is eventually published with the anonymized data. Their approach unsurprisingly yields lower reconstruction error and information loss as well as more fine-grained query results due to less generalization. However, their experiments mostly fix $k=5$ and therefore simply try to reduce information loss due to anonymization, but do not try to examine ML performance over a wider range of k factors; moreover, there seems to be some inconsistency in their predictions.
+
+
+
+
 % ==================================
-%			BASICS K-ANONYMITY
+%		BASICS OF K-ANONYMITY
 % ==================================
 \section{K-Anonymity and Information loss}
 
-While there several data-structures which can contain and convey personal information we might want to protect (free text, audio, images, graph structures etc.) we are focusing our work on tabular data, since most unstructured documents of sensitive nature today can be mapped to tabular data and since delicate information is most easily extracted from those. Figure~\ref{fig:anon_categories} illustrates the original tabular concept of three different categories of data we will encounter in such tables:
+While there are several data-structures which can contain and convey personal information we might want to protect (free text, audio, images, graph structures etc.) we are focusing our work on tabular data, since most unstructured documents of sensitive nature today can be mapped to tabular data and since delicate information is most easily extracted from those. Figure~\ref{fig:anon_categories} illustrates the original tabular concept of three different categories of data we will encounter in such tables:
 
 \begin{itemize}
 	\item \textbf{Identifiers} directly reveal the identity of a person without having further analysis of the data. Examples are first and last names, email address or social security number (SSN). As personal identifiers are hard to generalized (see Figure~\ref{fig:gen_hierarchy}) in a meaningful way (truncating an email address to 'host' would not yield much usable information), those columns are usually removed. The figure displays this column in a red background color.
@@ -88,28 +98,13 @@ While there several data-structures which can contain and convey personal inform
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=\textwidth]{figures/theory/3typesofdata}
+		\includegraphics[width=0.9\textwidth]{figures/theory/3typesofdata}
 		\caption{The three types of data considered in (k-)anonymization}
 		\label{fig:anon_categories}
 	\end{center}
 \end{figure}
 
-%As described in \cite{ciriani2007kappa}, k-anonymization requires that in each data release every combination of values of quasi-identifiers must be identical to at least $k-1$ other entries in that release, which can be seen as a clustering problem with each cluster's (also called \textit{equivalence class}) quasi-identifier state being identical for every data point. This can be achieved via suppression and generalization, where suppression means simply deletion, whereas in generalization we try to retain some usable value.
-
-%The process of generalization works through a concept called \textit{generalization hierarchies}, which form a tree, whose root denotes the most general value available for an attribute (usually the 'all' value) and then branches to more and more specific occurrences, with its leafs representing the set of exact, original values (see Figure~\ref{fig:gen_hierarchy}). In generalizing the original input value, one traverses the tree from the leaf level upwards until a prerequisite is fulfilled. Usually, this comes in the form of the k-anonymity requirement, so that we want to find a group of other data entries whose generalized QI's match the data point being processed.
-
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=\textwidth]{figures/theory/gen_hierarchy}
-		\caption{Example of a typical generalization hierarchy}
-		\label{fig:gen_hierarchy}
-		\small
-		taken from \cite{aggarwal2005approximation}
-	\end{center}
-\end{figure}
-
-
-%Each level of generalization involves a certain cost in information loss, so we do not want to construct our clusters in any random sequence but minimize the overall information loss \cite{aggarwal2005approximation}. This makes k-anonymization an NP-hard problem due to an exponential number of possible generalized QI combinations.
+As described in \cite{ciriani2007kappa}, k-anonymization requires a data release to contain at least $k-1$ duplicate entries for every occurring combination of attributes. One can imagine this as a clustering problem with each cluster's (also called \textit{equivalence class}) quasi-identifier state being identical for every data point it contains. One can achieve this via suppression and generalization, where by suppression we mean simple deletion, whereas generalization refers to a decrease in a value's granularity. As an example, in Figure~\ref{fig:anonymized_clusters}, an input dataset has been transformed through k-anonymization into a clustered set with each cluster being at least of $size = 3$; thus the data is said to be $3-anonymized$.
 
 \begin{figure}[h]
 	\centering
@@ -124,21 +119,20 @@ While there several data-structures which can contain and convey personal inform
 	\label{fig:anonymized_clusters}
 \end{figure}
 
+Generalization works through a concept called \textit{generalization hierarchies / taxonomies}, which run from leaf nodes denoting particular values ('France') via internal nodes ('Western Europe') to their most general root ('all countries' or '*'). Such a hierarchy is depicted in Figure~\ref{fig:gen_hierarchy}. In generalizing the original input value, one traverses the tree from a leaf node upwards until a certain condition is met. In the case of k-anonymity, we satisfy this condition when we can construct an equivalence group with all quasi-identifiers being duplicates of one another.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{figures/theory/gen_hierarchy}
+		\caption{Example of a typical generalization hierarchy}
+		\label{fig:gen_hierarchy}
+		\small
+		taken from \cite{aggarwal2005approximation}
+	\end{center}
+\end{figure}
 
 
-% ==================================
-%			RELATED WORK
-% ==================================
-
-\section{Related Work}
-\label{sect:related_work}
-
-A comparison of different Machine Learning algorithms on anonymized datasets was already conducted in 2014 \cite{Wimmer2014} by applying 6 different algorithms on 3 datasets, with very diverse results per algorithm. The main weakness of this paper is its usage of extremely differently-sized datasets which does not easily allow comparison; moreover they only used one very low privacy setting of $k=2$, preventing the authors from examining more interesting behavior as information content degrades further; this is a main point of our work.
-
-The authors of \cite{Majeed2017} propose a scheme for controlling over-generalization of less identity-vulnerable QIs in diverse classes by determining the importance of QIs via Random Forest pre-computations as well as computing sensitive attribute diversity via the Simpson index \cite{simpson1949measurement}. Their resulting adaptive anonymization algorithm was compared to Mondrian \cite{lefevre2006mondrian} as well as IACk \cite{li2011information} and shows improvements w.r.t information loss as well as coverage (the number of descendant leaf nodes of generalized values in the taxonomy). Accuracy measured on classification tree, random forest and SVM shows equal or better performance when applied to a dataset anonymized by their proposed solution; it is interesting to note that their performance on large factors of $k$ not only remains stable, but in some cases increases with $k$, the same behavior we also observed in some of our experiments.
-
-
-The authors of a recent paper \cite{LeeHCeiling2017} propose the introduction of an additional requirement for anonymization on top of k-anonymity called h-ceiling, which simply restricts generalizations within an equivalence class to a certain level below suppression. In the case on an equivalence class being able to satisfy h-ceiling but not k-anonymity (their method applies full-domain generalization), counterfeit records are inserted into the respective group; each insertion is also collected in a journal which is eventually published with the anonymized data. Their approach unsurprisingly yields lower reconstruction error and information loss as well as more fine-grained query results due to less generalization. However, their experiments mostly fix $k=5$ and therefore simply try to reduce information loss due to anonymization, but do not try to examine ML performance over a wider range of k factors; moreover, there seems to be some inconsistency in their predictions.
+As each level of generalization invokes an increasing loss of specificity, we do not want to construct our clusters inefficiently, but minimize a dataset's overall information loss \cite{aggarwal2005approximation}. This makes k-anonymization an NP-hard problem due to an exponential number of possible data-row combinations one can examine.
 
 
 

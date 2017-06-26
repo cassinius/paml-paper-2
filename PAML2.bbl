@@ -19,6 +19,13 @@ Alina Campan and Traian~Marius Truta.
 \newblock In {\em Privacy, Security, and Trust in KDD}, pages 33--54. Springer,
   2009.
 
+\bibitem{ciriani2007kappa}
+Valentina Ciriani, S~De~Capitani di~Vimercati, Sara Foresti, and Pierangela
+  Samarati.
+\newblock $\kappa$-anonymity.
+\newblock In {\em Secure data management in decentralized systems}, pages
+  323--353. Springer, 2007.
+
 \bibitem{iMLExperiment}
 A~Holzinger, M~Plass, K~Holzinger, GC~Crisan, CM~Pintea, and V~Palade.
 \newblock Towards interactive machine learning (iml): Applying ant colony
