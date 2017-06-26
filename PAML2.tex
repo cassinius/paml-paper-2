@@ -49,7 +49,7 @@
 % ==================================
 \begin{abstract}
 
-Exponential trends in data generation are presenting todays organizations, economies and governments with challenges never encountered before, especially in the field of privacy and data security. One crucial trade-off regulators are facing regards the simultaneous need for publishing personal information for the sake of statistical analysis and Machine Learning in order to increase quality levels in areas like medical services, while at the same time protecting the identity of individuals. A key European measure will be the introduction of the General Data Protection Regulation (GDPR) in 2018, giving customers the 'right to be forgotten', i.e. having their data deleted on request. As this could lead to a competitive disadvantage for European companies, it is important to understand which effects deletion of significant data points has on the performance of ML techniques. In a previous paper we introduced a series of experiments applying different algorithms to a binary classification problem under anonymization as well as perturbation. In this paper we extend those experiments by multi-class classification and introduce outlier-removal as an additional scenario. While the results of our previous work were mostly in-line with our expectations, our current experiments revealed unexpected behavior over a range of different scenarios. A surprising conclusion of those experiments is the fact that classification on an anonymized dataset with outliers removed in beforehand can almost compete with classification on the original, un-anonymized dataset. This could soon lead to competitive Machine Learning pipelines on anonymized datasets for real-world usage in the marketplace.
+Exponential trends in data generation are presenting today's organizations, economies and governments with challenges never encountered before, especially in the field of privacy and data security. One crucial trade-off regulators are facing regards the simultaneous need for publishing personal information for the sake of statistical analysis and Machine Learning in order to increase quality levels in areas like medical services, while at the same time protecting the identity of individuals. A key European measure will be the introduction of the General Data Protection Regulation (GDPR) in 2018, giving customers the 'right to be forgotten', i.e. having their data deleted on request. As this could lead to a competitive disadvantage for European companies, it is important to understand which effects deletion of significant data points has on the performance of ML techniques. In a previous paper we introduced a series of experiments applying different algorithms to a binary classification problem under anonymization as well as perturbation. In this paper we extend those experiments by multi-class classification and introduce outlier-removal as an additional scenario. While the results of our previous work were mostly in-line with our expectations, our current experiments revealed unexpected behavior over a range of different scenarios. A surprising conclusion of those experiments is the fact that classification on an anonymized dataset with outliers removed in beforehand can almost compete with classification on the original, un-anonymized dataset. This could soon lead to competitive Machine Learning pipelines on anonymized datasets for real-world usage in the marketplace.
 
 
 \medskip
@@ -72,14 +72,21 @@ Exponential trends in data generation are presenting todays organizations, econo
 \section{Introduction and Related Work}
 \label{sect:introduction}
 
+In today's data-driven industries which increasingly form the backbone of the 21st century's economy, personal information is no longer only stored by private companies, public service organizations or health providers. They also constitute a vital building-block for business intelligence and as a decision-making basis for improving services or public investments in measures for disease or natural disaster prevention. Therefore lies a crucial advantage in the publication, linkage, and systematic analysis of data sets from heterogeneous sources via statistics as well as Machine Learning. Any kind of institution which fails or is forbidden to engage in such activities, will in time face serious disadvantages on the marketplace or a lack in service quality compared to entities able to do so.
 
-A comparison of different Machine Learning algorithms on anonymized datasets was already conducted in 2014 \cite{Wimmer2014} by applying 6 different algorithms on 3 datasets, with very diverse results per algorithm. The main weakness of this paper is its usage of extremely differently-sized datasets which does not easily allow comparison; moreover they only used one very low privacy setting of $k=2$, preventing the authors from examining more interesting behavior as information content degrades further; this is a main point of our work.
+One specific challenge for data processing entities is increasingly imposed on them by the law. Under the new European General Data Protection Regulations (\textit{GDPR}) taking effect on June 1st, 2018, customers are given a \textit{right-to-be-forgotten}, meaning that an organization is obligated to remove a customer's personal data upon request. For many organizations, this would incur serious additional investments and costs from their IT infrastructure, as even backup- or statistical systems must be connected, lest no 'forgotten' data will reappear. Nevertheless, the law will allow data analysis on anonymized datasets (for which a right-to-be-forgotten makes no sense from a technical point of view), so that organizations will soon be faced with the question: Do we learn on original data \& bear all costs of the impeding bureaucracy, or shall we analyze anonymized datasets and risk significantly lower insights.
+
+This brings us to the field of Privacy aware machine learning (PAML) \cite{DuchiJordan:2014:PrivacyAwareLearning}, enabled and fostered by concepts like \textit{k-anonymity} \cite{Samarati:2001:kAnonymity}, in which a record is released only if it is indistinguishable from at least $k-1$ other entities in the dataset. However, due to many personal records being high-dimensional in nature and k-anonymity being highly dependent on spatial locality (density) in order to effectively implement the technique in a statistically robust way, it might be difficult to anonymize data without suffering a high amount of information loss \cite{Aggarwal:2005:kAnonymity}.
+
+Moreover, the original privacy requirement of \textit{k-anonymity} \cite{Sweeney:2002:k-Anonymity} has over time been refined by concepts like \textit{l-diversity} \cite{MachanavajjhalaEtAl:2007:l-Diversity} (in which every equivalence group must contain at least l diverse sensitive values from the original dataset), \textit{t-closeness} \cite{LiEtAl:2007:t-closeness} (which prescribes that the local distribution over sensitive values within an equivalence group must not differ from it's global distribution by more than a threshold $t$) as well as \textit{delta-presence} \cite{NergizClifton:2010:Delta-Presence} (which links the quality of anonymization to the risk posed by inadequate anonymization). Additionally, there is a whole discipline of measures summarized as \textit{differential privacy} \cite{dwork2008differential}, which deals with methods of securely releasing sensitive information upon database queries by injecting controlled noise into responses.
+
+As far as PAML is concerned, a comparison of different Machine Learning algorithms on anonymized datasets was already conducted in 2014 \cite{Wimmer2014} by applying 6 different algorithms on 3 datasets, with very diverse results per algorithm. The main weakness of this paper is its usage of extremely differently-sized datasets which does not easily allow comparison; moreover they only used one very low privacy setting of $k=2$, preventing the authors from examining more interesting behavior as information content degrades further; this is a main point of our work.
 
 The authors of \cite{Majeed2017} propose a scheme for controlling over-generalization of less identity-vulnerable QIs in diverse classes by determining the importance of QIs via Random Forest pre-computations as well as computing sensitive attribute diversity via the Simpson index \cite{simpson1949measurement}. Their resulting adaptive anonymization algorithm was compared to Mondrian \cite{lefevre2006mondrian} as well as IACk \cite{li2011information} and shows improvements w.r.t information loss as well as coverage (the number of descendant leaf nodes of generalized values in the taxonomy). Accuracy measured on classification tree, random forest and SVM shows equal or better performance when applied to a dataset anonymized by their proposed solution; it is interesting to note that their performance on large factors of $k$ not only remains stable, but in some cases increases with $k$, the same behavior we also observed in some of our experiments.
 
-
 A recent paper \cite{LeeHCeiling2017} proposes the introduction of an additional requirement for anonymization on top of k-anonymity called h-ceiling, which simply restricts generalizations within an equivalence class to a certain level below suppression. In the case on an equivalence class being able to satisfy h-ceiling but not k-anonymity (their method applies full-domain generalization), counterfeit records are inserted into the respective group; each insertion is also collected in a journal which is eventually published with the anonymized data. Their approach unsurprisingly yields lower reconstruction error and information loss as well as more fine-grained query results due to less generalization. However, their experiments mostly fix $k=5$ and therefore simply try to reduce information loss due to anonymization, but do not try to examine ML performance over a wider range of k factors; moreover, there seems to be some inconsistency in their predictions.
 
+Finally, we should also reference our previous work on this topic \cite{malle2016right}, in which we conducted a comparison study of binary classification performance on perturbed (selective deletion) vs. wholesale anonymized data. Our experiments showed that perturbation was still significantly less damaging to Machine Learning performance than even slight anonymization; that state of our previous research marks the connecting point to this paper.
 
 
 
@@ -151,7 +158,7 @@ The following sections will describe our series of experiments in detail, encomp
 As input data we chose the training set of the adults dataset from the UCI Machine Learning repository which was generated from US census data and contains approximately 32,000 entries (30162 after deleting rows with incomplete information). All but one columns were considered for experimentation, the remaining representing duplicate information (education $=>$ education\_num). Figure~\ref{fig:adult_original_distribution} shows the attribute value distribution of 6 arbitrarily selected columns of the original (un-anonymized) dataset.
 
 
-\begin{figure}[H]
+\begin{figure}[!h]
 	\begin{center}
     \hspace*{-0.8cm}
 		\includegraphics[width=1.1\textwidth]{figures/theory/dist_initial_small}
@@ -162,7 +169,7 @@ As input data we chose the training set of the adults dataset from the UCI Machi
 
 Amongst these distribution, two clearly stand out: \textit{native-country} as well as \textit{hours-per-week}, which are both dominated by a single attribute value (\textit{United-States} and \textit{40}, respectively). In order to demonstrate the effect of anonymization on attribute value distributions, Figure~\ref{fig:adult_anonymized_distribution} shows the same attribute distributions under anonymization by a factor of $k=19$. Although the dominance of the \textit{United-States} was successfully "broken" by this method, in several instances the \textit{generalized-to-all}-value (*) now skews the data set even more. In addition to the incurred information loss this might be another reason for degraded classifier performance on such data.
 
-\begin{figure}[H]
+\begin{figure}[!h]
 	\begin{center}
     	\hspace*{-0.8cm}
 		\includegraphics[width=1.1\textwidth]{figures/theory/dist_anonym_small}
@@ -240,7 +247,7 @@ To examine the effect of perturbation, anonymization, outlier-removal as well as
 \end{enumerate}
 
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\begin{center}
 		% \vspace{-1.0cm}
     	\hspace*{-0.8cm}
@@ -271,7 +278,7 @@ For each of the targets 'marital-status' and 'education-num' we measured those i
 In the latter case this lead to erratic behavior of the resulting performance curves, as can be seen in (Figure~\ref{fig:results_perturbation_education_num}). It is interesting to note that 'income$\_>$50k' obviously held much larger significance for Logistic Regression than for the other classifiers, as their results showed f1 score improvement with this particular value eviscerating.
 
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/perturbation/adults_education_num/perturb_education_combined}
 	\caption{Multi-class classification on target \textit{education-num} under perturbation by selective deletion of the most / least contributing attribute values. Since different values are significant for deciding on different classes of education level, progressive deletion of this data results in indeterminate behavior.}
@@ -282,7 +289,7 @@ In the latter case this lead to erratic behavior of the resulting performance cu
 In the case of 'marital-status' almost the same attribute values were rated as most / least significant across all classes - this results in very clear outputs with the erasure of highly important values decreasing performance drastically while deletion of confusing values leading to a significant increase in classifier performance (Figure~\ref{fig:results_perturbation_marital_status}). While it is not surprising that relationship information shows high correlation with marital status, the opposite effects of \textit{sex\_Female} and \textit{sex\_Male} stand out as a slight curiosity - being a woman in this dataset seems to point less distinctly to a specific marital status than being a man.
 
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/perturbation/adults_marital_status/perturb_marital_combined}
 	\caption{Multi-class classification on target \textit{marital-status} under perturbation by selective deletion of the most / least contributing attribute values. Since the same values are significant for deciding different classes of marital status, progressive deletion leads to orderly increase / decrease of ML performance.}
@@ -306,7 +313,7 @@ Our observation generally show the same type of behavior than in our previous ex
 	\label{fig:results_anonymization_education_num}
 \end{figure}
 
-Classifier performance on target \textit{marital-status} displayed the same basic behavior as above, including the mysterious conduct of the Random Forest in case of our age- and race-vectors. Moreover, the classification results are generally better than for \textit{education-num}, which is probably caused by our somewhat arbitrary clustering of education levels during pre-processing. All in all, the pure anonymization-related results were almost in line with our expectations.
+Classifier performance on target \textit{marital-status} displayed the same basic behavior as above, including the mysterious conduct of the Random Forest in case of our age- and race-vectors. Moreover, the classification results are generally better than for \textit{education-num}, which is probably caused by our somewhat arbitrary clustering of education levels during pre-processing. All in all, the pure anonymization-related results were almost in line with our expectations; in addition, our previous assessment that implementation of the 'right-to-be-forgotten' for individual users is preferable to wholesale anonymization, has not changed for the multi-class case.
 
 
 \begin{figure}[!h]
@@ -346,7 +353,7 @@ This led to our last round of experiments in which we took the adult dataset wit
 
 As a side-note, we observe that under these settings, SVC starts to mimic Random Forest's behavior of an initial collapse in performance for the age- and range-vectors with a subsequent recovery towards higher levels of $k$. We do not yet have an adequate explanation for this and will investigate deeper in our future efforts. 
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/anon_outliers/anon_outliers_marital_combined}
 	\caption{Multi-class classification on target marital status based on a dataset with 30\% outliers removed AND under different degrees of k-anonymization.}

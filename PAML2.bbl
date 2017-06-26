@@ -1,5 +1,11 @@
 \begin{thebibliography}{10}
 
+\bibitem{Aggarwal:2005:kAnonymity}
+Charu~C Aggarwal.
+\newblock On k-anonymity and the curse of dimensionality.
+\newblock In {\em Proceedings of the 31st international conference on Very
+  large data bases VLDB}, pages 901--909, 2005.
+
 \bibitem{aggarwal2005approximation}
 Gagan Aggarwal, Tomas Feder, Krishnaram Kenthapadi, Rajeev Motwani, Rina
   Panigrahy, Dilys Thomas, and An~Zhu.
@@ -25,6 +31,17 @@ Valentina Ciriani, S~De~Capitani di~Vimercati, Sara Foresti, and Pierangela
 \newblock $\kappa$-anonymity.
 \newblock In {\em Secure data management in decentralized systems}, pages
   323--353. Springer, 2007.
+
+\bibitem{DuchiJordan:2014:PrivacyAwareLearning}
+John~C Duchi, Michael~I Jordan, and Martin~J Wainwright.
+\newblock Privacy aware learning.
+\newblock {\em Journal of the ACM (JACM)}, 61(6):38, 2014.
+
+\bibitem{dwork2008differential}
+Cynthia Dwork.
+\newblock Differential privacy: A survey of results.
+\newblock In {\em International Conference on Theory and Applications of Models
+  of Computation}, pages 1--19. Springer, 2008.
 
 \bibitem{iMLExperiment}
 A~Holzinger, M~Plass, K~Holzinger, GC~Crisan, CM~Pintea, and V~Palade.
@@ -62,6 +79,19 @@ Jiuyong Li, Jixue Liu, Muzammil Baig, and Raymond Chi-Wing Wong.
 \newblock Information based data anonymization for classification utility.
 \newblock {\em Data \& Knowledge Engineering}, 70(12):1030--1045, 2011.
 
+\bibitem{LiEtAl:2007:t-closeness}
+Ninghui Li, Tiancheng Li, and Suresh Venkatasubramanian.
+\newblock t-closeness: Privacy beyond k-anonymity and l-diversity.
+\newblock In {\em IEEE 23rd International Conference on Data Engineering, ICDE
+  2007}, pages 106--115. IEEE, 2007.
+
+\bibitem{MachanavajjhalaEtAl:2007:l-Diversity}
+Ashwin Machanavajjhala, Daniel Kifer, Johannes Gehrke, and Muthuramakrishnan
+  Venkitasubramaniam.
+\newblock l-diversity: Privacy beyond k-anonymity.
+\newblock {\em ACM Transactions on Knowledge Discovery from Data (TKDD)},
+  1(1):1--52, 2007.
+
 \bibitem{Majeed2017}
 A~Majeed, F~Ullah, and S~Lee.
 \newblock {Vulnerability-and Diversity-Aware Anonymization of Personally
@@ -76,10 +106,29 @@ Bernd Malle, Peter Kieseberg, Edgar Weippl, and Andreas Holzinger.
 \newblock In {\em International Conference on Availability, Reliability, and
   Security}, pages 251--266. Springer, 2016.
 
+\bibitem{NergizClifton:2010:Delta-Presence}
+M.~E. Nergiz and C.~Clifton.
+\newblock delta-presence without complete world knowledge.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  22(6):868--883, 2010.
+
+\bibitem{Samarati:2001:kAnonymity}
+Pierangela Samarati.
+\newblock Protecting respondents identities in microdata release.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  13(6):1010--1027, 2001.
+
 \bibitem{simpson1949measurement}
 Edward~H Simpson.
 \newblock Measurement of diversity.
 \newblock {\em Nature}, 1949.
+
+\bibitem{Sweeney:2002:k-Anonymity}
+Latanya Sweeney.
+\newblock Achieving k-anonymity privacy protection using generalization and
+  suppression.
+\newblock {\em International Journal of Uncertainty, Fuzziness and
+  Knowledge-Based Systems}, 10(5):571--588, 2002.
 
 \bibitem{sweeney2002k}
 Latanya Sweeney.
